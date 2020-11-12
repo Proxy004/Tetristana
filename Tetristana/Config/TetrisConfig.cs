@@ -12,7 +12,7 @@ namespace Tetristana.Config
 {
     public enum Tetrominos
     {
-        I, O, T, S, Z, J, L
+        I, J, L, O, S, T, Z
     }
 
     public static class TetrisConfig
@@ -35,6 +35,17 @@ namespace Tetristana.Config
             {Keys.Right, "Move tetromino to the right" },
             {Keys.Up, "Rotate tetromino clockwise" },
             {Keys.Down, "Drop tetromino softly" },
+        };
+
+        public static Dictionary<Tetrominos, Color> TetrominoColors = new Dictionary<Tetrominos, Color>
+        {
+            {Tetrominos.I, Color.FromArgb(0, 240, 240) },
+            {Tetrominos.J, Color.FromArgb(0, 0, 240) },
+            {Tetrominos.L, Color.FromArgb(0, 240, 160) },
+            {Tetrominos.O, Color.FromArgb(240, 240, 0) },
+            {Tetrominos.S, Color.FromArgb(0, 216, 0) },
+            {Tetrominos.T, Color.FromArgb(160, 0, 240) },
+            {Tetrominos.Z, Color.FromArgb(240, 0, 0) },
         };
 
         public static void InitializeGame(Form form)
@@ -73,7 +84,7 @@ namespace Tetristana.Config
         static Func<int> getStatsBoxWidth = () => StatsBoxWidth;
         static Func<int> getStatsBoxHeight = () => BlockCountHeight * BlockSize;
 
-        public static string getControlsInstructions(Dictionary<Keys, string> instructions)
+        private static string getControlsInstructions(Dictionary<Keys, string> instructions)
         {
             string result = "";
             foreach (KeyValuePair<Keys, string> ins in instructions)
