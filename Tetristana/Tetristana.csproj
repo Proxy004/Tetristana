@@ -52,6 +52,17 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Game\Block.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Game\Tetromino.cs" />
+    <Compile Include="Game\Tetrominos\L.cs" />
+    <Compile Include="Game\Tetrominos\J.cs" />
+    <Compile Include="Game\Tetrominos\Z.cs" />
+    <Compile Include="Game\Tetrominos\S.cs" />
+    <Compile Include="Game\Tetrominos\T.cs" />
+    <Compile Include="Game\Tetrominos\O.cs" />
+    <Compile Include="Game\Tetrominos\I.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Config\TetrisConfig.cs" />
