@@ -8,8 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Tetristana
+namespace Tetristana.Config
 {
+    public enum Tetrominos
+    {
+        I, O, T, S, Z, J, L
+    }
+
     public static class TetrisConfig
     {
         public static int BlockSize { get; set; } = 35;
@@ -19,18 +24,24 @@ namespace Tetristana
 
         private static int _tmr_move_blocks_interval = 500;
 
-        public static Timer tmr_move_blocks = new Timer() { 
+        public static Timer tmr_move_blocks = new Timer()
+        {
             Interval = _tmr_move_blocks_interval,
         };
 
-        public static object config = new { 
-            Test = "test"
+        public static Dictionary<Keys, string> ControlsInstructions = new Dictionary<Keys, string>
+        {
+            {Keys.Left, "Move tetromino to the left" },
+            {Keys.Right, "Move tetromino to the right" },
+            {Keys.Up, "Rotate tetromino clockwise" },
+            {Keys.Down, "Drop tetromino softly" },
         };
 
         public static void InitializeGame(Form form)
         {
             //init gui
             form.ClientSize = new System.Drawing.Size(BlockSize * BlockCountWidth + StatsBoxWidth, BlockSize * BlockCountHeight);
+            form.FormBorderStyle = FormBorderStyle.FixedDialog;
 
             //add seperator 
             Panel seperator = new Panel()
@@ -48,16 +59,28 @@ namespace Tetristana
             //add controls instructions
             Label controlsInstructions = new Label()
             {
-                Text = getControlsInstructions()
+                AutoSize = true,
+                Text = getControlsInstructions(ControlsInstructions),
+                Left = getFieldWidth() + 10,
+                Top = getStatsBoxHeight() / 3 * 2,
             };
+            form.Controls.Add(controlsInstructions);
         }
 
         static Func<int> getFieldWidth = () => BlockCountWidth * BlockSize;
         static Func<int> getFieldHeight = () => BlockCountHeight * BlockSize;
 
+        static Func<int> getStatsBoxWidth = () => StatsBoxWidth;
+        static Func<int> getStatsBoxHeight = () => BlockCountHeight * BlockSize;
 
-        static Func<string> getControlsInstructions = () => $"";
-            
-
+        public static string getControlsInstructions(Dictionary<Keys, string> instructions)
+        {
+            string result = "";
+            foreach (KeyValuePair<Keys, string> ins in instructions)
+            {
+                result += $"{ins.Key}:  {ins.Value}\n";
+            }
+            return result;
+        }
     }
 }
