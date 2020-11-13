@@ -23,9 +23,11 @@ namespace Tetristana.Game
             this.Top = top;
         }
 
-        public void moveBlock()
+        public void moveBlock(MovingDirections moveDirection)
         {
-            //move block
+            if (moveDirection == MovingDirections.Left) this.Left -= TetrisConfig.BlockSize;
+            if (moveDirection == MovingDirections.Right) this.Left += TetrisConfig.BlockSize;
+            if (moveDirection == MovingDirections.Down) this.Top += TetrisConfig.BlockSize;
         }
     }
 }
