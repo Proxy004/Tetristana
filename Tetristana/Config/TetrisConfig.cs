@@ -7,12 +7,18 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tetristana.Game;
 
 namespace Tetristana.Config
 {
     public enum Tetrominos
     {
         I, J, L, O, S, T, Z
+    }
+
+    public enum MovingDirections
+    {
+        Left, Right, Down
     }
 
     public static class TetrisConfig
@@ -41,7 +47,7 @@ namespace Tetristana.Config
         {
             {Tetrominos.I, Color.FromArgb(0, 240, 240) },
             {Tetrominos.J, Color.FromArgb(0, 0, 240) },
-            {Tetrominos.L, Color.FromArgb(0, 240, 160) },
+            {Tetrominos.L, Color.FromArgb(240, 160, 0) },
             {Tetrominos.O, Color.FromArgb(240, 240, 0) },
             {Tetrominos.S, Color.FromArgb(0, 216, 0) },
             {Tetrominos.T, Color.FromArgb(160, 0, 240) },
@@ -76,10 +82,12 @@ namespace Tetristana.Config
                 Top = getStatsBoxHeight() / 3 * 2,
             };
             form.Controls.Add(controlsInstructions);
-        }
 
-        static Func<int> getFieldWidth = () => BlockCountWidth * BlockSize;
-        static Func<int> getFieldHeight = () => BlockCountHeight * BlockSize;
+            //tetromino moving timer init
+        } 
+
+        public static Func<int> getFieldWidth = () => BlockCountWidth * BlockSize;
+        public static Func<int> getFieldHeight = () => BlockCountHeight * BlockSize;
 
         static Func<int> getStatsBoxWidth = () => StatsBoxWidth;
         static Func<int> getStatsBoxHeight = () => BlockCountHeight * BlockSize;
