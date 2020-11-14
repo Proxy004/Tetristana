@@ -6,6 +6,7 @@ using Tetristana.Config;
 
 namespace Tetristana.Game
 {
+    public delegate void EventTypeTetrominoDocked(Tetromino tetromino);
     public class Tetromino
     {
         public static List<Tetromino> Tetrominos = new List<Tetromino>();
@@ -20,9 +21,9 @@ namespace Tetristana.Game
             this.TetrominoType = tetrominoType;
         }
 
-        public virtual void renderShape(Form form) { }
+        public virtual void RenderShape(Form form) { }
 
-        public void moveTetromino(Form form, MovingDirections movingDirection)
+        public void MoveTetromino(Form form, MovingDirections movingDirection)
         {
             switch (movingDirection)
             {
@@ -37,12 +38,13 @@ namespace Tetristana.Game
                     }
                     break;
                 case MovingDirections.Right:
-                    bool allowMovement = true;
+                    bool allowMovementRight = true;
                     foreach (Block block in Shape)
                     {
-                        if (block.Right >= TetrisConfig.getFieldWidth()) allowMovement = false;
+                        if (block.Right >= TetrisConfig.getFieldWidth()) allowMovementRight = false;
                     }
-                    if (!allowMovement) return;
+
+                    if (!allowMovementRight) return;
                     else
                     {
                         foreach (Block block in Shape)
@@ -52,18 +54,47 @@ namespace Tetristana.Game
                     }
                     break;
                 case MovingDirections.Down:
+                    bool allowMovementDown = true;
                     foreach (Block block in Shape)
                     {
-                        if (block.Top + TetrisConfig.BlockSize < TetrisConfig.getFieldHeight())
+                        if (block.Bottom >= TetrisConfig.getFieldHeight()) allowMovementDown = false;
+                    }
+
+                    if (!allowMovementDown)
+                    {
+                        TetrominoDocked?.Invoke(this);
+                        return;
+                    }
+                    else
+                    {
+                        foreach (Block block in Shape)
                         {
-                            block.Top += TetrisConfig.BlockSize;
+                            block.moveBlock(movingDirection);
                         }
-                        else return;
                     }
                     break;
                 default:
                     break;
             }
         }
+
+        public void CheckCollisions()
+        {
+            foreach (Block block in activeTetromino.Shape)
+            {
+                foreach (Tetromino tetromino in Tetromino.Tetrominos)
+                {
+                    foreach (Block tetrominoBlock in tetromino.Shape)
+                    {
+                        if (block.Bounds.IntersectsWith(tetrominoBlock.Bounds))
+                        {
+                            TetrominoDocked?.Invoke(this);
+                        }
+                    }
+                }
+            }
+        }
+
+        public event EventTypeTetrominoDocked TetrominoDocked;
     }
 }

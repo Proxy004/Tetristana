@@ -9,7 +9,7 @@ namespace Tetristana
 {
     public partial class Form1 : Form
     {
-        public bool gameRunning = false;
+        private bool gameRunning = false;
         public Form1()
         {
             InitializeComponent();
@@ -17,39 +17,22 @@ namespace Tetristana
 
             //init Tick methods
             TetrisConfig.tmr_move_blocks.Tick += Tmr_move_blocks_Tick;
-
-            //Z z = new Z();
-            //z.renderShape(this);
-
-            //O o = new O();
-            //o.renderShape(this);
-
-            //T t = new T();
-            //t.renderShape(this);
-
-            //S s = new S();
-            //s.renderShape(this);
-
-            //L l = new L();
-            //l.renderShape(this);
-
-            //J j = new J();
-            //j.renderShape(this);
         }
 
         private void Tmr_move_blocks_Tick(object sender, System.EventArgs e)
         {
-            Tetromino.activeTetromino.moveTetromino(this, MovingDirections.Down);
+            Tetromino.activeTetromino.MoveTetromino(this, MovingDirections.Down);
+            Tetromino.activeTetromino.CheckCollisions();
         }
 
         private void StartGame()
         {
             gameRunning = true;
             TetrisConfig.tmr_move_blocks.Start();
-            RenderRandomTetromino();
-        }
+            RenderNewRandomTetromino();
+        } 
 
-        private void RenderRandomTetromino()
+        private void RenderNewRandomTetromino()
         {
             //string randomTetromino = ((Tetrominos)Tetromino.random.Next(Enum.GetNames(typeof(Tetrominos)).Length)).ToString();
             //object tetromino = Activator.CreateInstance(Type.GetType(randomTetromino));
@@ -61,61 +44,70 @@ namespace Tetristana
             {
                 case 0:
                     I i = new I();
-                    i.renderShape(this);
+                    i.RenderShape(this);
                     Tetromino.activeTetromino = i;
                     break;
                 case 1:
                     J j = new J();
-                    j.renderShape(this);
+                    j.RenderShape(this);
                     Tetromino.activeTetromino = j;
                     break;
                 case 2:
                     L l = new L();
-                    l.renderShape(this);
+                    l.RenderShape(this);
                     Tetromino.activeTetromino = l;
                     break;
                 case 3:
                     O o = new O();
-                    o.renderShape(this);
+                    o.RenderShape(this);
                     Tetromino.activeTetromino = o;
                     break;
                 case 4:
                     S s = new S();
-                    s.renderShape(this);
+                    s.RenderShape(this);
                     Tetromino.activeTetromino = s;
                     break;
                 case 5:
                     T t = new T();
-                    t.renderShape(this);
+                    t.RenderShape(this);
                     Tetromino.activeTetromino = t;
                     break;
                 case 6:
                     Z z = new Z();
-                    z.renderShape(this);
+                    z.RenderShape(this);
                     Tetromino.activeTetromino = z;
                     break;
                 default:
                     break;
             }
-
+            Tetromino.activeTetromino.TetrominoDocked += ActiveTetromino_TetrominoDocked;
         }
 
+        //tetromino docked
+        private void ActiveTetromino_TetrominoDocked(Tetromino tetromino)
+        {
+            Tetromino.Tetrominos.Add(Tetromino.activeTetromino);
+            tetromino.TetrominoDocked -= ActiveTetromino_TetrominoDocked;
+            RenderNewRandomTetromino();
+        }
+
+        //keyhandling
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             //controls
             switch (e.KeyCode)
             {
                 case Keys.Left:
-                    if (gameRunning) Tetromino.activeTetromino.moveTetromino(this, MovingDirections.Left);
+                    if (gameRunning) Tetromino.activeTetromino.MoveTetromino(this, MovingDirections.Left);
                     break;
                 case Keys.Right:
-                    if (gameRunning) Tetromino.activeTetromino.moveTetromino(this, MovingDirections.Right);
+                    if (gameRunning) Tetromino.activeTetromino.MoveTetromino(this, MovingDirections.Right);
                     break;
                 case Keys.Down:
-                    if (gameRunning) Tetromino.activeTetromino.moveTetromino(this, MovingDirections.Down);
+                    if (gameRunning) Tetromino.activeTetromino.MoveTetromino(this, MovingDirections.Down);
                     break;
                 case Keys.Space:
-                    StartGame();
+                    if (!gameRunning) StartGame();
                     break;
                 default:
                     break;
