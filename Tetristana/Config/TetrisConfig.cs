@@ -33,6 +33,7 @@ namespace Tetristana.Config
         public static Timer tmr_move_blocks = new Timer()
         {
             Interval = _tmr_move_blocks_interval,
+            Enabled = false
         };
 
         public static Dictionary<Keys, string> ControlsInstructions = new Dictionary<Keys, string>
@@ -82,8 +83,6 @@ namespace Tetristana.Config
                 Top = getStatsBoxHeight() / 3 * 2,
             };
             form.Controls.Add(controlsInstructions);
-
-            //tetromino moving timer init
         } 
 
         public static Func<int> getFieldWidth = () => BlockCountWidth * BlockSize;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Tetristana.Config;
@@ -12,6 +13,7 @@ namespace Tetristana.Game
         public Tetristana.Config.Tetrominos TetrominoType { get; set; }
         public Color BackgroundColor { get; set; }
         public Block[] Shape = new Block[4];
+        public static Random random = new Random();
 
         public Tetromino(Tetristana.Config.Tetrominos tetrominoType)
         {
@@ -20,33 +22,47 @@ namespace Tetristana.Game
 
         public virtual void renderShape(Form form) { }
 
-        public virtual void moveTetromino(Form form, MovingDirections movingDirection)
+        public void moveTetromino(Form form, MovingDirections movingDirection)
         {
-            foreach (Block block in Shape)
+            switch (movingDirection)
             {
-                switch (movingDirection)
-                {
-                    case MovingDirections.Left:
+                case MovingDirections.Left:
+                    foreach (Block block in Shape)
+                    {
                         if (block.Left > 0)
                         {
                             block.moveBlock(movingDirection);
                         }
-                        break;
-                    case MovingDirections.Right:
-                        if (block.Right < TetrisConfig.getFieldWidth())
+                        else return;
+                    }
+                    break;
+                case MovingDirections.Right:
+                    bool allowMovement = true;
+                    foreach (Block block in Shape)
+                    {
+                        if (block.Right >= TetrisConfig.getFieldWidth()) allowMovement = false;
+                    }
+                    if (!allowMovement) return;
+                    else
+                    {
+                        foreach (Block block in Shape)
                         {
                             block.moveBlock(movingDirection);
                         }
-                        break;
-                    case MovingDirections.Down:
+                    }
+                    break;
+                case MovingDirections.Down:
+                    foreach (Block block in Shape)
+                    {
                         if (block.Top + TetrisConfig.BlockSize < TetrisConfig.getFieldHeight())
                         {
                             block.Top += TetrisConfig.BlockSize;
                         }
-                        break;
-                    default:
-                        break;
-                }
+                        else return;
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }
