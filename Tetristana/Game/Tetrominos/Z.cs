@@ -15,7 +15,7 @@ namespace Tetristana.Game.Tetrominos
             BackgroundColor = TetrisConfig.TetrominoColors[Config.Tetrominos.Z];
         }
 
-        public override void renderShape(Form form)
+        public override void RenderShape(Form form)
         {
             int renderCount = 0;
             for (int i = 0; i < Shape.Length; i++)
