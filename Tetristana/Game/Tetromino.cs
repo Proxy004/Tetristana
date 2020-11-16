@@ -107,7 +107,7 @@ namespace Tetristana.Game
                             Top = block.Top,
                             Height = block.Height + 1,
                             Width = block.Width,
-                            BackColor = Color.Beige
+                            BackColor = Color.Red
                         };
                         controls.Add(collisionCheckPanel);
 

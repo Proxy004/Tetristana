@@ -110,7 +110,7 @@ namespace Tetristana
                     Tetromino.activeTetromino.CheckCollisions(this.Controls);
                     break;
                 case Keys.Space:
-                    if (!gameRunning) StartGame();
+                    if (!gameRunning) StartGame(); else TetrisConfig.tmr_move_blocks.Stop();
                     break;
                 default:
                     break;

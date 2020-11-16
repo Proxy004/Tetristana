@@ -28,8 +28,20 @@ namespace Tetristana.Game.Tetrominos
         }
 
         public override void RotateShape(Control.ControlCollection controls, RotationState currentRotationState)
-        { 
-            if(ro)
+        {
+            Point oldLocation = new Point(Shape[0].Left, Shape[0].Top);
+            if (currentRotationState == RotationState.Default || currentRotationState == RotationState.Down)
+            {
+                for (int i = 0; i < Shape.Length; i++)
+                {
+                    Shape[i].Top = oldLocation.X;
+                    Shape[i].Left = oldLocation.Y * i;
+                }
+                this.RotationState = RotationState.Left;
+            }
+            else
+            {
+            }
         }
     }
 }
