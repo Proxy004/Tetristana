@@ -21,8 +21,8 @@ namespace Tetristana
 
         private void Tmr_move_blocks_Tick(object sender, System.EventArgs e)
         {
-            Tetromino.activeTetromino.MoveTetromino(this, MovingDirections.Down);
-            Tetromino.activeTetromino.CheckCollisions();
+            Tetromino.activeTetromino.MoveTetromino(MovingDirections.Down);
+            Tetromino.activeTetromino.CheckCollisions(this.Controls);
         }
 
         private void StartGame()
@@ -44,37 +44,37 @@ namespace Tetristana
             {
                 case 0:
                     I i = new I();
-                    i.RenderShape(this);
+                    i.RenderShape(this.Controls);
                     Tetromino.activeTetromino = i;
                     break;
                 case 1:
                     J j = new J();
-                    j.RenderShape(this);
+                    j.RenderShape(this.Controls);
                     Tetromino.activeTetromino = j;
                     break;
                 case 2:
                     L l = new L();
-                    l.RenderShape(this);
+                    l.RenderShape(this.Controls);
                     Tetromino.activeTetromino = l;
                     break;
                 case 3:
                     O o = new O();
-                    o.RenderShape(this);
+                    o.RenderShape(this.Controls);
                     Tetromino.activeTetromino = o;
                     break;
                 case 4:
                     S s = new S();
-                    s.RenderShape(this);
+                    s.RenderShape(this.Controls);
                     Tetromino.activeTetromino = s;
                     break;
                 case 5:
                     T t = new T();
-                    t.RenderShape(this);
+                    t.RenderShape(this.Controls);
                     Tetromino.activeTetromino = t;
                     break;
                 case 6:
                     Z z = new Z();
-                    z.RenderShape(this);
+                    z.RenderShape(this.Controls);
                     Tetromino.activeTetromino = z;
                     break;
                 default:
@@ -98,13 +98,16 @@ namespace Tetristana
             switch (e.KeyCode)
             {
                 case Keys.Left:
-                    if (gameRunning) Tetromino.activeTetromino.MoveTetromino(this, MovingDirections.Left);
+                    if (gameRunning) Tetromino.activeTetromino.MoveTetromino(MovingDirections.Left);
+                    Tetromino.activeTetromino.CheckCollisions(this.Controls);
                     break;
                 case Keys.Right:
-                    if (gameRunning) Tetromino.activeTetromino.MoveTetromino(this, MovingDirections.Right);
+                    if (gameRunning) Tetromino.activeTetromino.MoveTetromino(MovingDirections.Right);
+                    Tetromino.activeTetromino.CheckCollisions(this.Controls);
                     break;
                 case Keys.Down:
-                    if (gameRunning) Tetromino.activeTetromino.MoveTetromino(this, MovingDirections.Down);
+                    if (gameRunning) Tetromino.activeTetromino.MoveTetromino(MovingDirections.Down);
+                    Tetromino.activeTetromino.CheckCollisions(this.Controls);
                     break;
                 case Keys.Space:
                     if (!gameRunning) StartGame();

@@ -1,0 +1,10 @@
+C:\Users\simon\Documents\HWI_Bregenz\ANP\3\Semesterprojekte\Tetristana\Tetristana\bin\Release\Tetristana.exe.config
+C:\Users\simon\Documents\HWI_Bregenz\ANP\3\Semesterprojekte\Tetristana\Tetristana\bin\Release\Tetristana.exe
+C:\Users\simon\Documents\HWI_Bregenz\ANP\3\Semesterprojekte\Tetristana\Tetristana\bin\Release\Tetristana.pdb
+C:\Users\simon\Documents\HWI_Bregenz\ANP\3\Semesterprojekte\Tetristana\Tetristana\obj\Release\Tetristana.csprojAssemblyReference.cache
+C:\Users\simon\Documents\HWI_Bregenz\ANP\3\Semesterprojekte\Tetristana\Tetristana\obj\Release\Tetristana.Form1.resources
+C:\Users\simon\Documents\HWI_Bregenz\ANP\3\Semesterprojekte\Tetristana\Tetristana\obj\Release\Tetristana.Properties.Resources.resources
+C:\Users\simon\Documents\HWI_Bregenz\ANP\3\Semesterprojekte\Tetristana\Tetristana\obj\Release\Tetristana.csproj.GenerateResource.cache
+C:\Users\simon\Documents\HWI_Bregenz\ANP\3\Semesterprojekte\Tetristana\Tetristana\obj\Release\Tetristana.csproj.CoreCompileInputs.cache
+C:\Users\simon\Documents\HWI_Bregenz\ANP\3\Semesterprojekte\Tetristana\Tetristana\obj\Release\Tetristana.exe
+C:\Users\simon\Documents\HWI_Bregenz\ANP\3\Semesterprojekte\Tetristana\Tetristana\obj\Release\Tetristana.pdb

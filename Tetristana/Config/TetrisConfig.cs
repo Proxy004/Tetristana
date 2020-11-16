@@ -21,6 +21,11 @@ namespace Tetristana.Config
         Left, Right, Down
     }
 
+    public enum RotationState
+    {
+        Default, Left, Right, Down
+    }
+
     public static class TetrisConfig
     {
         public static int BlockSize { get; set; } = 35;
@@ -28,7 +33,7 @@ namespace Tetristana.Config
         public static int BlockCountHeight { get; set; } = 24;
         public static int StatsBoxWidth { get; set; } = 200;
 
-        private static int _tmr_move_blocks_interval = 500;
+        private static int _tmr_move_blocks_interval = 1000;
 
         public static Timer tmr_move_blocks = new Timer()
         {

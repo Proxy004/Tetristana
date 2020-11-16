@@ -16,15 +16,20 @@ namespace Tetristana.Game.Tetrominos
             BackgroundColor = TetrisConfig.TetrominoColors[Config.Tetrominos.I];
         }
 
-        public override void RenderShape(Form form)
+        public override void RenderShape(Control.ControlCollection controls)
         {
             for (int i = 0; i < Shape.Length; i++)
             {
                 Shape[i] = new Block(BackgroundColor);
                 Shape[i].Left = TetrisConfig.BlockSize * TetrisConfig.BlockCountWidth / 2;
                 Shape[i].Top = i * TetrisConfig.BlockSize;
-                form.Controls.Add(Shape[i]);
+                controls.Add(Shape[i]);
             }
+        }
+
+        public override void RotateShape(Control.ControlCollection controls, RotationState currentRotationState)
+        { 
+            if(ro)
         }
     }
 }

@@ -15,27 +15,35 @@ namespace Tetristana.Game
         public Color BackgroundColor { get; set; }
         public Block[] Shape = new Block[4];
         public static Random random = new Random();
+        public RotationState RotationState = RotationState.Default;
 
         public Tetromino(Tetristana.Config.Tetrominos tetrominoType)
         {
             this.TetrominoType = tetrominoType;
         }
 
-        public virtual void RenderShape(Form form) { }
+        public virtual void RenderShape(Control.ControlCollection controls) { }
 
-        public void MoveTetromino(Form form, MovingDirections movingDirection)
+        public void MoveTetromino(MovingDirections movingDirection)
         {
             switch (movingDirection)
             {
                 case MovingDirections.Left:
+                    bool allowMovementLeft = true;
                     foreach (Block block in Shape)
                     {
-                        if (block.Left > 0)
+                        if (block.Left <= 0) allowMovementLeft = false;
+                    }
+
+                    if (!allowMovementLeft) return;
+                    else
+                    {
+                        foreach (Block block in Shape)
                         {
                             block.moveBlock(movingDirection);
                         }
-                        else return;
                     }
+
                     break;
                 case MovingDirections.Right:
                     bool allowMovementRight = true;
@@ -78,22 +86,42 @@ namespace Tetristana.Game
             }
         }
 
-        public void CheckCollisions()
+        public void CheckCollisions(Control.ControlCollection controls)
         {
+            List<Tetromino> copyOfTetrominos = new List<Tetromino>(Tetromino.Tetrominos);            
+
             foreach (Block block in activeTetromino.Shape)
             {
-                foreach (Tetromino tetromino in Tetromino.Tetrominos)
+                foreach (Tetromino tetromino in copyOfTetrominos)
                 {
                     foreach (Block tetrominoBlock in tetromino.Shape)
                     {
-                        if (block.Bounds.IntersectsWith(tetrominoBlock.Bounds))
+                        //if (block.Bounds.IntersectsWith(tetrominoBlock.Bounds))
+                        //{
+                        //    TetrominoDocked?.Invoke(this);
+                        //}
+
+                        Panel collisionCheckPanel = new Panel()
+                        {
+                            Left = block.Left,
+                            Top = block.Top,
+                            Height = block.Height + 1,
+                            Width = block.Width,
+                            BackColor = Color.Beige
+                        };
+                        controls.Add(collisionCheckPanel);
+
+                        if (collisionCheckPanel.Bounds.IntersectsWith(tetrominoBlock.Bounds))
                         {
                             TetrominoDocked?.Invoke(this);
                         }
+                        controls.Remove(collisionCheckPanel);
                     }
                 }
             }
         }
+
+        public virtual void RotateShape(Control.ControlCollection controls, RotationState currentRotationState) { }
 
         public event EventTypeTetrominoDocked TetrominoDocked;
     }
