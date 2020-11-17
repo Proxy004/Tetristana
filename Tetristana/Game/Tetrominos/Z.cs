@@ -15,7 +15,8 @@ namespace Tetristana.Game.Tetrominos
             BackgroundColor = TetrisConfig.TetrominoColors[Config.Tetrominos.Z];
         }
 
-        public override void RenderShape(Form form)
+
+        public override void RenderShape(Control.ControlCollection controls)
         {
             int renderCount = 0;
             for (int i = 0; i < Shape.Length; i++)
@@ -29,7 +30,7 @@ namespace Tetristana.Game.Tetrominos
                 renderCount++;
                 if (i == 2) { renderCount--; }
                 Shape[i].Left = TetrisConfig.BlockSize * TetrisConfig.BlockCountWidth / 2 + renderCount * TetrisConfig.BlockSize - TetrisConfig.BlockSize * 2;
-                form.Controls.Add(Shape[i]);
+                controls.Add(Shape[i]);
             }
         }
     }
