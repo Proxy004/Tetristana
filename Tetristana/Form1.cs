@@ -30,57 +30,46 @@ namespace Tetristana
             gameRunning = true;
             TetrisConfig.tmr_move_blocks.Start();
             RenderNewRandomTetromino();
-        } 
+        }
+
+        private Tetromino GetTetromino(Tetrominos tetrominoType)
+        {
+            switch (tetrominoType)
+            {
+                case Tetrominos.I:
+                    return new I();
+                case Tetrominos.J:
+                    return new J();
+                case Tetrominos.L:
+                    return new L();
+                case Tetrominos.O:
+                    return new O();
+                case Tetrominos.S:
+                    return new S();
+                case Tetrominos.T:
+                    return new T();
+                case Tetrominos.Z:
+                    return new Z();
+                default:
+                    return null;
+            }
+        }
 
         private void RenderNewRandomTetromino()
         {
-            //string randomTetromino = ((Tetrominos)Tetromino.random.Next(Enum.GetNames(typeof(Tetrominos)).Length)).ToString();
-            //object tetromino = Activator.CreateInstance(Type.GetType(randomTetromino));
-            //Tetromino.activeTetromino = (Tetromino)tetromino;
+            Tetrominos tetrominoType = (Tetrominos)Tetromino.random.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
+            //int randomNextTetrominoNumnber = Tetromino.random.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
 
-            int randomTetrominoNumber = Tetromino.random.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
+            Tetromino t = GetTetromino(tetrominoType);
+            t.RenderShape(this.Controls);
+            Tetromino.activeTetromino = t;
 
-            switch (Math.Round(Convert.ToDouble(randomTetrominoNumber), 0))
-            {
-                case 0:
-                    I i = new I();
-                    i.RenderShape(this.Controls);
-                    Tetromino.activeTetromino = i;
-                    break;
-                case 1:
-                    J j = new J();
-                    j.RenderShape(this.Controls);
-                    Tetromino.activeTetromino = j;
-                    break;
-                case 2:
-                    L l = new L();
-                    l.RenderShape(this.Controls);
-                    Tetromino.activeTetromino = l;
-                    break;
-                case 3:
-                    O o = new O();
-                    o.RenderShape(this.Controls);
-                    Tetromino.activeTetromino = o;
-                    break;
-                case 4:
-                    S s = new S();
-                    s.RenderShape(this.Controls);
-                    Tetromino.activeTetromino = s;
-                    break;
-                case 5:
-                    T t = new T();
-                    t.RenderShape(this.Controls);
-                    Tetromino.activeTetromino = t;
-                    break;
-                case 6:
-                    Z z = new Z();
-                    z.RenderShape(this.Controls);
-                    Tetromino.activeTetromino = z;
-                    break;
-                default:
-                    break;
-            }
             Tetromino.activeTetromino.TetrominoDocked += ActiveTetromino_TetrominoDocked;
+        }
+
+        private void RenderNextTetromino(Tetromino tetromino)
+        {
+            tetromino.RenderShape(Controls);
         }
 
         //tetromino docked
@@ -107,6 +96,10 @@ namespace Tetristana
                     break;
                 case Keys.Down:
                     if (gameRunning) Tetromino.activeTetromino.MoveTetromino(MovingDirections.Down);
+                    Tetromino.activeTetromino.CheckCollisions(this.Controls);
+                    break;
+                case Keys.Up:
+                    if (gameRunning) Tetromino.activeTetromino.RotateTetromino(this.Controls, Tetromino.activeTetromino.RotationState);
                     Tetromino.activeTetromino.CheckCollisions(this.Controls);
                     break;
                 case Keys.Space:

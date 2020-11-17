@@ -9,13 +9,15 @@ namespace Tetristana.Game
     public delegate void EventTypeTetrominoDocked(Tetromino tetromino);
     public class Tetromino
     {
-        public static List<Tetromino> Tetrominos = new List<Tetromino>();
-        public static Tetromino activeTetromino;
+        public static List<Tetromino> Tetrominos { get; set; } = new List<Tetromino>();
+        public static Tetromino activeTetromino { get; set; }
         public Tetristana.Config.Tetrominos TetrominoType { get; set; }
         public Color BackgroundColor { get; set; }
-        public Block[] Shape = new Block[4];
-        public static Random random = new Random();
-        public RotationState RotationState = RotationState.Default;
+        public Block[] Shape { get; set; } = new Block[4];
+        public static Random random { get; set; } = new Random();
+        public RotationState RotationState { get; set; } = RotationState.Default;
+        public static Config.Tetrominos? NextTetromino { get; set; } = null;
+        public static int Score { get; set; } = 0;
 
         public Tetromino(Tetristana.Config.Tetrominos tetrominoType)
         {
@@ -88,7 +90,7 @@ namespace Tetristana.Game
 
         public void CheckCollisions(Control.ControlCollection controls)
         {
-            List<Tetromino> copyOfTetrominos = new List<Tetromino>(Tetromino.Tetrominos);            
+            List<Tetromino> copyOfTetrominos = new List<Tetromino>(Tetromino.Tetrominos);
 
             foreach (Block block in activeTetromino.Shape)
             {
@@ -121,7 +123,7 @@ namespace Tetristana.Game
             }
         }
 
-        public virtual void RotateShape(Control.ControlCollection controls, RotationState currentRotationState) { }
+        public virtual void RotateTetromino(Control.ControlCollection controls, RotationState currentRotationState) { }
 
         public event EventTypeTetrominoDocked TetrominoDocked;
     }
