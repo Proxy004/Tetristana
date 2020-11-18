@@ -30,17 +30,24 @@ namespace Tetristana.Game.Tetrominos
         public override void RotateTetromino(Control.ControlCollection controls, RotationState currentRotationState)
         {
             Point oldLocation = new Point(Shape[0].Left, Shape[0].Top);
-            if (currentRotationState == RotationState.Default || currentRotationState == RotationState.Down)
+            if (currentRotationState == RotationState.Default)
             {
-                for (int i = 0; i < Shape.Length; i++)
+                for (int i = 1; i < Shape.Length; i++)
                 {
-                    Shape[i].Top = oldLocation.X;
-                    Shape[i].Left = oldLocation.Y * i;
+                    Shape[i].Top = oldLocation.Y;
+                    Shape[i].Left = oldLocation.X + i * TetrisConfig.BlockSize;
                 }
                 this.RotationState = RotationState.Left;
             }
             else
             {
+
+                for (int i = 1; i < Shape.Length; i++)
+                {
+                    Shape[i].Left = oldLocation.X;
+                    Shape[i].Top = oldLocation.Y + i * TetrisConfig.BlockSize;
+                }
+                this.RotationState = RotationState.Default;
             }
         }
     }

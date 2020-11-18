@@ -33,6 +33,8 @@ namespace Tetristana.Config
         public static int BlockCountHeight { get; set; } = 24;
         public static int StatsBoxWidth { get; set; } = 200;
 
+        public static Label ScoreLabel { get; set; }
+
         private static int _tmr_move_blocks_interval = 1000;
 
         public static Timer tmr_move_blocks = new Timer()
@@ -83,20 +85,30 @@ namespace Tetristana.Config
             Label controlsInstructions = new Label()
             {
                 AutoSize = true,
-                Text = getControlsInstructions(ControlsInstructions),
-                Left = getFieldWidth() + 10,
+                Text = GetControlsInstructions(ControlsInstructions),
+                Left = getFieldWidth() + BlockSize,
                 Top = getStatsBoxHeight() / 3 * 2,
             };
             form.Controls.Add(controlsInstructions);
+
+            //add score
+            ScoreLabel = new Label()
+            {
+                AutoSize = true,
+                Text = $"Score: {Tetromino.Score}",
+                Top = getStatsBoxHeight() / 3,
+                Left = getFieldWidth() + BlockSize
+            };
+            form.Controls.Add(ScoreLabel);
         } 
 
         public static Func<int> getFieldWidth = () => BlockCountWidth * BlockSize;
         public static Func<int> getFieldHeight = () => BlockCountHeight * BlockSize;
 
-        static Func<int> getStatsBoxWidth = () => StatsBoxWidth;
-        static Func<int> getStatsBoxHeight = () => BlockCountHeight * BlockSize;
+        public static Func<int> getStatsBoxWidth = () => StatsBoxWidth;
+        public static Func<int> getStatsBoxHeight = () => BlockCountHeight * BlockSize;
 
-        private static string getControlsInstructions(Dictionary<Keys, string> instructions)
+        private static string GetControlsInstructions(Dictionary<Keys, string> instructions)
         {
             string result = "";
             foreach (KeyValuePair<Keys, string> ins in instructions)
