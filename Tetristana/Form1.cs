@@ -9,7 +9,8 @@ namespace Tetristana
 {
     public partial class Form1 : Form
     {
-        private bool gameRunning = false;
+        private bool _gameRunning = false; 
+
         public Form1()
         {
             InitializeComponent();
@@ -21,13 +22,13 @@ namespace Tetristana
 
         private void Tmr_move_blocks_Tick(object sender, System.EventArgs e)
         {
-            Tetromino.activeTetromino.MoveTetromino(MovingDirections.Down);
-            Tetromino.activeTetromino.CheckCollisions(this.Controls);
+            Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Down);
+            Tetromino.ActiveTetromino.CheckCollisions(this.Controls);
         }
 
         private void StartGame()
         {
-            gameRunning = true;
+            _gameRunning = true;
             TetrisConfig.tmr_move_blocks.Start();
             RenderNewRandomTetromino();
         }
@@ -58,26 +59,32 @@ namespace Tetristana
         private void RenderNewRandomTetromino()
         {
             Tetrominos tetrominoType = (Tetrominos)Tetromino.random.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
-            //int randomNextTetrominoNumnber = Tetromino.random.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
-
             Tetromino t = GetTetromino(tetrominoType);
-            t.RenderShape(this.Controls);
-            Tetromino.activeTetromino = t;
+            RenderNextTetromino(t);
 
-            Tetromino.activeTetromino.TetrominoDocked += ActiveTetromino_TetrominoDocked;
+            DeclareNextTetromino();
+        }
+
+        private void DeclareNextTetromino()
+        {
+            Tetromino.NextTetromino = (Tetrominos)Tetromino.random.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
         }
 
         private void RenderNextTetromino(Tetromino tetromino)
         {
             tetromino.RenderShape(Controls);
+            Tetromino.ActiveTetromino = tetromino;
+            tetromino.TetrominoDocked += ActiveTetromino_TetrominoDocked;
+            DeclareNextTetromino();
         }
 
         //tetromino docked
         private void ActiveTetromino_TetrominoDocked(Tetromino tetromino)
         {
-            Tetromino.Tetrominos.Add(Tetromino.activeTetromino);
+            Tetromino.DockedTetrominos.Add(Tetromino.ActiveTetromino);
+            Tetromino.Score++;
             tetromino.TetrominoDocked -= ActiveTetromino_TetrominoDocked;
-            RenderNewRandomTetromino();
+            RenderNextTetromino(GetTetromino(Tetromino.NextTetromino));
         }
 
         //keyhandling
@@ -87,27 +94,24 @@ namespace Tetristana
             switch (e.KeyCode)
             {
                 case Keys.Left:
-                    if (gameRunning) Tetromino.activeTetromino.MoveTetromino(MovingDirections.Left);
-                    Tetromino.activeTetromino.CheckCollisions(this.Controls);
+                    if (_gameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Left);
                     break;
                 case Keys.Right:
-                    if (gameRunning) Tetromino.activeTetromino.MoveTetromino(MovingDirections.Right);
-                    Tetromino.activeTetromino.CheckCollisions(this.Controls);
+                    if (_gameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Right);
                     break;
                 case Keys.Down:
-                    if (gameRunning) Tetromino.activeTetromino.MoveTetromino(MovingDirections.Down);
-                    Tetromino.activeTetromino.CheckCollisions(this.Controls);
+                    if (_gameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Down);
                     break;
                 case Keys.Up:
-                    if (gameRunning) Tetromino.activeTetromino.RotateTetromino(this.Controls, Tetromino.activeTetromino.RotationState);
-                    Tetromino.activeTetromino.CheckCollisions(this.Controls);
+                    if (_gameRunning) Tetromino.ActiveTetromino.RotateTetromino(this.Controls, Tetromino.ActiveTetromino.RotationState);
                     break;
                 case Keys.Space:
-                    if (!gameRunning) StartGame(); else TetrisConfig.tmr_move_blocks.Stop();
+                    if (!_gameRunning) StartGame(); else TetrisConfig.tmr_move_blocks.Stop();
                     break;
                 default:
                     break;
             }
+            Tetromino.ActiveTetromino.CheckCollisions(this.Controls);
         }
     }
 }
