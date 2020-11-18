@@ -32,7 +32,7 @@ namespace Tetristana.Game
         public RotationState RotationState { get; set; } = RotationState.Default;
         public static Config.Tetrominos NextTetromino { get; set; }
 
-        public Tetromino(Tetristana.Config.Tetrominos tetrominoType)
+        public Tetromino(Config.Tetrominos tetrominoType)
         {
             this.TetrominoType = tetrominoType;
         }

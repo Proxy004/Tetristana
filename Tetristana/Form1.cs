@@ -9,7 +9,8 @@ namespace Tetristana
 {
     public partial class Form1 : Form
     {
-        private bool _gameRunning = false; 
+        private bool _gameStarted = false;
+        private bool _gameRunning = false;
 
         public Form1()
         {
@@ -26,11 +27,32 @@ namespace Tetristana
             Tetromino.ActiveTetromino.CheckCollisions(this.Controls);
         }
 
-        private void StartGame()
+        private void HandleToggleSpaceKey()
         {
-            _gameRunning = true;
-            TetrisConfig.tmr_move_blocks.Start();
-            RenderNewRandomTetromino();
+            if (!_gameStarted)
+            {
+                _gameStarted = true;
+                _gameRunning = true;
+                TetrisConfig.tmr_move_blocks.Start();
+                RenderNewRandomTetromino();
+            }
+            else
+            {
+                if (_gameRunning)
+                {
+                    _gameRunning = false;
+                    TetrisConfig.tmr_move_blocks.Stop();
+                    this.KeyDown -= Form1_KeyDown;
+                    TetrisConfig.MusicPlayer.Stop();
+                }
+                else
+                {
+                    _gameRunning = true;
+                    TetrisConfig.tmr_move_blocks.Start();
+                    this.KeyDown += Form1_KeyDown;
+                    TetrisConfig.MusicPlayer.PlayLooping();
+                }
+            }
         }
 
         private Tetromino GetTetromino(Tetrominos tetrominoType)
@@ -106,12 +128,13 @@ namespace Tetristana
                     if (_gameRunning) Tetromino.ActiveTetromino.RotateTetromino(this.Controls, Tetromino.ActiveTetromino.RotationState);
                     break;
                 case Keys.Space:
-                    if (!_gameRunning) StartGame(); else TetrisConfig.tmr_move_blocks.Stop();
+                    HandleToggleSpaceKey();
                     break;
                 default:
                     break;
             }
-            Tetromino.ActiveTetromino.CheckCollisions(this.Controls);
+
+            if (Tetromino.ActiveTetromino != null) Tetromino.ActiveTetromino.CheckCollisions(this.Controls);
         }
     }
 }

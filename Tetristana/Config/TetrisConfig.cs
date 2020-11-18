@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tetristana.Game;
+using System.Media;
+using System.IO;
 
 namespace Tetristana.Config
 {
@@ -32,8 +34,8 @@ namespace Tetristana.Config
         public static int BlockCountWidth { get; set; } = 10;
         public static int BlockCountHeight { get; set; } = 24;
         public static int StatsBoxWidth { get; set; } = 200;
-
         public static Label ScoreLabel { get; set; }
+        public static SoundPlayer MusicPlayer { get; set; }
 
         private static int _tmr_move_blocks_interval = 1000;
 
@@ -67,6 +69,11 @@ namespace Tetristana.Config
             //init gui
             form.ClientSize = new System.Drawing.Size(BlockSize * BlockCountWidth + StatsBoxWidth, BlockSize * BlockCountHeight);
             form.FormBorderStyle = FormBorderStyle.FixedDialog;
+
+            //add background audio
+            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+            MusicPlayer = new SoundPlayer();
+            MusicPlayer.SoundLocation = Path.Combine(basePath, @"./../../tetris_audio.wav");
 
             //add seperator 
             Panel seperator = new Panel()
