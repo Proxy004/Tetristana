@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,68 +37,62 @@ namespace Tetristana.Game.Tetrominos
             Point oldLocation = new Point(Shape[0].Left, Shape[0].Top);
             if (currentRotationState == RotationState.Default)
             {
-                for (int i = 0; i < Shape.Length; i++)
+                if (Shape[0].Left + TetrisConfig.BlockSize < TetrisConfig.getFieldWidth())
                 {
-                    if (i == 0)
+                    for (int i = 0; i < Shape.Length; i++)
                     {
-                        Shape[i].Left = oldLocation.X + TetrisConfig.BlockSize;
+                        Shape[i].Left = oldLocation.X + (i - 1) * TetrisConfig.BlockSize;
                         Shape[i].Top = oldLocation.Y + TetrisConfig.BlockSize;
+                        if (i == 3)
+                        {
+                            Shape[i].Left = oldLocation.X - TetrisConfig.BlockSize;
+                            Shape[i].Top = oldLocation.Y;
+                        }
                     }
-                    else
-                    {
-                        Shape[i].Left = oldLocation.X;
-                        Shape[i].Top = oldLocation.Y + (i - 1) * TetrisConfig.BlockSize;
-                    }
+                    this.RotationState = RotationState.Right;
                 }
-                this.RotationState = RotationState.Right;
             }
             else if (currentRotationState == RotationState.Right)
             {
                 for (int i = 0; i < Shape.Length; i++)
                 {
-                    if (i == 0)
+                    Shape[i].Left = oldLocation.X + TetrisConfig.BlockSize;
+                    Shape[i].Top = oldLocation.Y + (i - 1) * TetrisConfig.BlockSize;
+                    if (i == 3)
                     {
-                        Shape[i].Left = oldLocation.X - TetrisConfig.BlockSize;
-                        Shape[i].Top = oldLocation.Y + TetrisConfig.BlockSize;
-                    }
-                    else
-                    {
-                        Shape[i].Left = oldLocation.X + (i - 3) * TetrisConfig.BlockSize;
-                        Shape[i].Top = oldLocation.Y;
+                        Shape[i].Left = oldLocation.X + 2 * TetrisConfig.BlockSize;
+                        Shape[i].Top = oldLocation.Y - TetrisConfig.BlockSize;
                     }
                 }
                 this.RotationState = RotationState.Down;
             }
             else if (currentRotationState == RotationState.Down)
             {
-                for (int i = 0; i < Shape.Length; i++)
+                if (Shape[0].Left - TetrisConfig.BlockSize >= 0)
                 {
-                    if (i == 0)
+                    for (int i = 0; i < Shape.Length; i++)
                     {
-                        Shape[i].Left = oldLocation.X - TetrisConfig.BlockSize;
-                        Shape[i].Top = oldLocation.Y - TetrisConfig.BlockSize;
+                        Shape[i].Left = oldLocation.X + (i - 1) * TetrisConfig.BlockSize;
+                        Shape[i].Top = oldLocation.Y + TetrisConfig.BlockSize;
+                        if (i == 3)
+                        {
+                            Shape[i].Left = oldLocation.X + TetrisConfig.BlockSize;
+                            Shape[i].Top = oldLocation.Y + 2 * TetrisConfig.BlockSize;
+                        }
                     }
-                    else
-                    {
-                        Shape[i].Left = oldLocation.X;
-                        Shape[i].Top = oldLocation.Y + (i - 3) * TetrisConfig.BlockSize;
-                    }
+                    this.RotationState = RotationState.Left;
                 }
-                this.RotationState = RotationState.Left;
             }
             else
             {
                 for (int i = 0; i < Shape.Length; i++)
                 {
-                    if (i == 0)
+                    Shape[i].Top = oldLocation.Y + (i - 1) * TetrisConfig.BlockSize;
+                    Shape[i].Left = oldLocation.X + TetrisConfig.BlockSize;
+                    if (i == 3)
                     {
-                        Shape[i].Left = oldLocation.X + TetrisConfig.BlockSize;
-                        Shape[i].Top = oldLocation.Y - TetrisConfig.BlockSize;
-                    }
-                    else
-                    {
-                        Shape[i].Left = oldLocation.X + (i - 1) * TetrisConfig.BlockSize;
-                        Shape[i].Top = oldLocation.Y;
+                        Shape[i].Left = oldLocation.X;
+                        Shape[i].Top = oldLocation.Y + TetrisConfig.BlockSize;
                     }
                 }
                 this.RotationState = RotationState.Default;
