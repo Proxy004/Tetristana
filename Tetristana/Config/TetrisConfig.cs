@@ -53,7 +53,7 @@ namespace Tetristana.Config
             {Keys.Down, "Drop tetromino softly" },
         };
 
-        public static Dictionary<Tetrominos, Color> TetrominoColors = new Dictionary<Tetrominos, Color>
+        public static Dictionary<Tetrominos, System.Drawing.Color> TetrominoColors = new Dictionary<Tetrominos, Color>
         {
             {Tetrominos.I, Color.FromArgb(0, 240, 240) },
             {Tetrominos.J, Color.FromArgb(0, 0, 240) },
@@ -74,6 +74,9 @@ namespace Tetristana.Config
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             MusicPlayer = new SoundPlayer();
             MusicPlayer.SoundLocation = Path.Combine(basePath, @"./../../tetris_audio.wav");
+
+            System.Windows.Media.MediaPlayer mediaPlayer = new System.Windows.Media.MediaPlayer();
+
 
             //add seperator 
             Panel seperator = new Panel()

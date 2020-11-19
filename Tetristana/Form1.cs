@@ -4,6 +4,7 @@ using Tetristana.Config;
 using Tetristana.Game;
 using Tetristana.Game.Tetrominos;
 using System.Linq;
+using System.IO;
 
 namespace Tetristana
 {
@@ -35,6 +36,7 @@ namespace Tetristana
                 _gameRunning = true;
                 TetrisConfig.tmr_move_blocks.Start();
                 RenderNewRandomTetromino();
+                TetrisConfig.MusicPlayer.PlayLooping();
             }
             else
             {
@@ -42,14 +44,12 @@ namespace Tetristana
                 {
                     _gameRunning = false;
                     TetrisConfig.tmr_move_blocks.Stop();
-                    this.KeyDown -= Form1_KeyDown;
                     TetrisConfig.MusicPlayer.Stop();
                 }
                 else
                 {
                     _gameRunning = true;
                     TetrisConfig.tmr_move_blocks.Start();
-                    this.KeyDown += Form1_KeyDown;
                     TetrisConfig.MusicPlayer.PlayLooping();
                 }
             }
