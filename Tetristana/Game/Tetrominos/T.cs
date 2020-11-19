@@ -78,15 +78,32 @@ namespace Tetristana.Game.Tetrominos
                     if (i == 0)
                     {
                         Shape[i].Left = oldLocation.X - TetrisConfig.BlockSize;
-                        Shape[i].Top = oldLocation.Y + TetrisConfig.BlockSize;
+                        Shape[i].Top = oldLocation.Y - TetrisConfig.BlockSize;
                     }
                     else
                     {
-                        Shape[i].Left = oldLocation.X + (i - 3) * TetrisConfig.BlockSize;
+                        Shape[i].Left = oldLocation.X;
+                        Shape[i].Top = oldLocation.Y + (i - 3) * TetrisConfig.BlockSize;
+                    }
+                }
+                this.RotationState = RotationState.Left;
+            }
+            else
+            {
+                for (int i = 0; i < Shape.Length; i++)
+                {
+                    if (i == 0)
+                    {
+                        Shape[i].Left = oldLocation.X + TetrisConfig.BlockSize;
+                        Shape[i].Top = oldLocation.Y - TetrisConfig.BlockSize;
+                    }
+                    else
+                    {
+                        Shape[i].Left = oldLocation.X + (i - 1) * TetrisConfig.BlockSize;
                         Shape[i].Top = oldLocation.Y;
                     }
                 }
-                this.RotationState = RotationState.Down;
+                this.RotationState = RotationState.Default;
             }
         }
     }
