@@ -59,9 +59,9 @@ namespace Tetristana.Config
             {Tetrominos.J, Color.FromArgb(0, 0, 240) },
             {Tetrominos.L, Color.FromArgb(240, 160, 0) },
             {Tetrominos.O, Color.FromArgb(240, 240, 0) },
-            {Tetrominos.S, Color.FromArgb(0, 216, 0) },
+            {Tetrominos.S, Color.FromArgb(240, 0, 0) },
             {Tetrominos.T, Color.FromArgb(160, 0, 240) },
-            {Tetrominos.Z, Color.FromArgb(240, 0, 0) },
+            {Tetrominos.Z, Color.FromArgb(0, 216, 0) },
         };
 
         public static void InitializeGame(Form form)
