@@ -110,27 +110,15 @@ namespace Tetristana.Game
                 foreach (Tetromino tetromino in copyOfTetrominos)
                 {
                     foreach (Block tetrominoBlock in tetromino.Shape)
-                    {
-                        //if (block.Bounds.IntersectsWith(tetrominoBlock.Bounds))
-                        //{
-                        //    TetrominoDocked?.Invoke(this);
-                        //}
+                    { 
+                        block.SetBounds(block.Left, block.Top, block.Width, block.Height + 1);
 
-                        Panel collisionCheckPanel = new Panel()
-                        {
-                            Left = block.Left,
-                            Top = block.Top,
-                            Height = block.Height + 1,
-                            Width = block.Width,
-                            BackColor = Color.Red
-                        };
-                        controls.Add(collisionCheckPanel);
-
-                        if (collisionCheckPanel.Bounds.IntersectsWith(tetrominoBlock.Bounds))
+                        if (block.Bounds.IntersectsWith(tetrominoBlock.Bounds))
                         {
                             TetrominoDocked?.Invoke(this);
                         }
-                        controls.Remove(collisionCheckPanel);
+
+                        block.SetBounds(block.Left, block.Top, block.Width, block.Height - 1);
                     }
                 }
             }

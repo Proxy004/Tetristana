@@ -35,7 +35,7 @@ namespace Tetristana.Config
         public static int BlockCountHeight { get; set; } = 24;
         public static int StatsBoxWidth { get; set; } = 200;
         public static Label ScoreLabel { get; set; }
-        public static SoundPlayer MusicPlayer { get; set; }
+        public static SoundPlayer MusicPlayer { get; set; } = new SoundPlayer();
 
         private static int _tmr_move_blocks_interval = 1000;
 
@@ -72,10 +72,8 @@ namespace Tetristana.Config
 
             //add background audio
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
-            MusicPlayer = new SoundPlayer();
-            MusicPlayer.SoundLocation = Path.Combine(basePath, @"./../../tetris_audio.wav");
+            MusicPlayer.SoundLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"./../../assets/sound/tetris_audio.wav");
 
-            System.Windows.Media.MediaPlayer mediaPlayer = new System.Windows.Media.MediaPlayer();
 
 
             //add seperator 

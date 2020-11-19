@@ -39,24 +39,31 @@ namespace Tetristana.Game.Tetrominos
             Point oldLocation = new Point(Shape[0].Left, Shape[0].Top);
             if (currentRotationState == RotationState.Default)
             {
-                if (Shape[0].Left + TetrisConfig.BlockSize * 3 < TetrisConfig.getFieldWidth())
+                if (Shape[0].Left >= TetrisConfig.BlockSize)
                 {
                     for (int i = 1; i < Shape.Length; i++)
                     {
-                        Shape[i].Top = oldLocation.Y;
-                        Shape[i].Left = oldLocation.X + i * TetrisConfig.BlockSize;
+                        Shape[i].Top = oldLocation.Y + i * TetrisConfig.BlockSize;
+                        if (i >= 2) Shape[i].Top = oldLocation.Y + (i - 1) * TetrisConfig.BlockSize;
+                        Shape[i].Left = oldLocation.X;
+                        if (i >= 2) Shape[i].Left = oldLocation.X - TetrisConfig.BlockSize;
                     }
                     this.RotationState = RotationState.Left;
                 }
             }
             else
             {
-                for (int i = 1; i < Shape.Length; i++)
+                if (Shape[0].Left + TetrisConfig.BlockSize * 3 <= TetrisConfig.getFieldWidth())
                 {
-                    Shape[i].Left = oldLocation.X;
-                    Shape[i].Top = oldLocation.Y + i * TetrisConfig.BlockSize;
+                    for (int i = 1; i < Shape.Length; i++)
+                    {
+                        Shape[i].Left = oldLocation.X + i * TetrisConfig.BlockSize;
+                        if (i >= 2) Shape[i].Left = oldLocation.X + (i - 1) * TetrisConfig.BlockSize;
+                        Shape[i].Top = oldLocation.Y;
+                        if (i >= 2) Shape[i].Top = oldLocation.Y + TetrisConfig.BlockSize;
+                    }
+                    this.RotationState = RotationState.Default;
                 }
-                this.RotationState = RotationState.Default;
             }
         }
     }
