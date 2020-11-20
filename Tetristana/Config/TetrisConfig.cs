@@ -108,6 +108,11 @@ namespace Tetristana.Config
                 Left = getFieldWidth() + BlockSize
             };
             form.Controls.Add(ScoreLabel);
+
+            LogoBox = new PictureBox()
+            {
+                Image = "./../../assets/sound/"
+            };
         } 
 
         public static Func<int> getFieldWidth = () => BlockCountWidth * BlockSize;

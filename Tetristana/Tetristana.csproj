@@ -98,6 +98,8 @@
   <ItemGroup>
     <Content Include="assets\sound\tetris_audio.wav" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="assets\pictures\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
