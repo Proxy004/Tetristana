@@ -28,7 +28,9 @@ namespace Tetristana.Config
         Default, Left, Right, Down
     }
 
-    public static class TetrisConfig
+
+
+    public static class TetrisConfig 
     {
         public static int BlockSize { get; set; } = 35;
         public static int BlockCountWidth { get; set; } = 10;
@@ -36,6 +38,10 @@ namespace Tetristana.Config
         public static int StatsBoxWidth { get; set; } = 200;
         public static Label ScoreLabel { get; set; }
         public static SoundPlayer MusicPlayer { get; set; } = new SoundPlayer();
+        public static PictureBox LogoBox { get; set; }
+        public static PictureBox Tristana { get; set; }
+        public static Button MuteMusic { get; set; }
+        public static Button information { get; set; }
 
         private static int _tmr_move_blocks_interval = 1000;
 
@@ -94,8 +100,9 @@ namespace Tetristana.Config
             {
                 AutoSize = true,
                 Text = GetControlsInstructions(ControlsInstructions),
-                Left = getFieldWidth() + BlockSize,
-                Top = getStatsBoxHeight() / 3 * 2,
+                Font = new Font("Open Sans",8, FontStyle.Regular),
+                Left =getFieldWidth() + 10,
+                Top = getStatsBoxHeight() /8*5 ,
             };
             form.Controls.Add(controlsInstructions);
 
@@ -103,18 +110,67 @@ namespace Tetristana.Config
             ScoreLabel = new Label()
             {
                 AutoSize = true,
+                Font = new Font("Open Sans", 20, FontStyle.Bold),
                 Text = $"Score: {Tetromino.Score}",
                 Top = getStatsBoxHeight() / 3,
-                Left = getFieldWidth() + BlockSize
+                Left = getFieldWidth() + getStatsBoxWidth() / 2 - 60,
             };
             form.Controls.Add(ScoreLabel);
 
+            //add tetristana logo
             LogoBox = new PictureBox()
             {
-                Image = "./../../assets/sound/"
+                Image = Image.FromFile(@"./../../assets/pictures/tetristana.png"),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Size = new Size(200, 150),
+                Top = 20,
+                Left = getFieldWidth() + getStatsBoxWidth() /2 -100,
             };
-        } 
+            form.Controls.Add(LogoBox);
 
+            //add Tristana
+            Tristana = new PictureBox()
+            {
+                Image = Image.FromFile(@"./../../assets/pictures/tristana.png"),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Size = new Size(220, 200),
+                Top = getStatsBoxHeight()-188,
+                Left = getFieldWidth() + getStatsBoxWidth() / 2 - 90,
+            };
+            form.Controls.Add(Tristana);
+
+            MuteMusic = new Button()
+            {
+                BackgroundImage = Image.FromFile(@"./../../assets/pictures/mute.png"),
+                Size = new Size(40, 40),
+                BackgroundImageLayout = ImageLayout.Stretch,
+                Top = getStatsBoxHeight() /10 *6,
+                Left = getFieldWidth() + getStatsBoxWidth() / 2 ,
+                
+            };
+            MuteMusic.FlatStyle = FlatStyle.Flat;           
+            MuteMusic.FlatAppearance.BorderSize = 0;
+            form.Controls.Add(MuteMusic);
+
+            information = new Button()
+            {
+                BackgroundImage = Image.FromFile(@"./../../assets/pictures/information.png"),
+                Size = new Size(40, 40),
+                BackgroundImageLayout = ImageLayout.Stretch,
+                Top = getStatsBoxHeight() / 10 * 6,
+                Left = getFieldWidth() + getStatsBoxWidth() / 2 - 60,
+            };
+
+            information.FlatStyle = FlatStyle.Flat;
+            information.FlatAppearance.BorderSize = 0;
+            information.Click += information_click;
+            form.Controls.Add(information);
+            void information_click(object sender, RoutedEventArgs e)
+            {
+
+            }
+        }
+     
         public static Func<int> getFieldWidth = () => BlockCountWidth * BlockSize;
         public static Func<int> getFieldHeight = () => BlockCountHeight * BlockSize;
 

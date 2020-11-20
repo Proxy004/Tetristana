@@ -96,10 +96,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\pictures\information.png" />
+    <Content Include="assets\pictures\mute.png" />
+    <Content Include="assets\pictures\tetristana.png" />
+    <Content Include="assets\pictures\tristana.png" />
     <Content Include="assets\sound\tetris_audio.wav" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="assets\pictures\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

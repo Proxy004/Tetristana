@@ -5,6 +5,7 @@ using Tetristana.Game;
 using Tetristana.Game.Tetrominos;
 using System.Linq;
 using System.IO;
+using System.Windows;
 
 namespace Tetristana
 {
@@ -136,5 +137,7 @@ namespace Tetristana
 
             if (Tetromino.ActiveTetromino != null) Tetromino.ActiveTetromino.CheckCollisions(this.Controls);
         }
+
+       
     }
 }
