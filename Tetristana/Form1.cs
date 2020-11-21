@@ -11,8 +11,8 @@ namespace Tetristana
 {
     public partial class Form1 : Form
     {
-        private bool _gameStarted = false;
-        private bool _gameRunning = false;
+        public static bool GameStarted { get; set; } = false;
+        public static bool GameRunning { get; set; } = false;
 
         public Form1()
         {
@@ -31,32 +31,53 @@ namespace Tetristana
 
         private void HandleToggleSpaceKey()
         {
-            if (!_gameStarted)
+            if (!GameStarted)
             {
-                _gameStarted = true;
-                _gameRunning = true;
+                GameStarted = true;
+                GameRunning = true;
                 TetrisConfig.tmr_move_blocks.Start();
                 RenderNewRandomTetromino();
-                TetrisConfig.MusicPlayer.PlayLooping();
+                if (TetrisConfig.MusicPlaying)
+                {
+                    TetrisConfig.MusicPlayer.PlayLooping();
+                }  
             }
             else
             {
-                if (_gameRunning)
+                if (GameRunning)
                 {
-                    _gameRunning = false;
-                    TetrisConfig.tmr_move_blocks.Stop();
-                    TetrisConfig.MusicPlayer.Stop();
+                    PauseGame();
                 }
                 else
                 {
-                    _gameRunning = true;
-                    TetrisConfig.tmr_move_blocks.Start();
-                    TetrisConfig.MusicPlayer.PlayLooping();
+                    ContinueGame();
                 }
             }
         }
 
- 
+        public static void PauseGame()
+        {
+            GameRunning = false;
+            TetrisConfig.tmr_move_blocks.Stop();
+            TetrisConfig.MusicPlayer.Stop();
+        }
+
+
+        public static void ContinueGame()
+        {
+            GameRunning = true; 
+            
+            TetrisConfig.tmr_move_blocks.Start();
+
+            if (TetrisConfig.MusicPlaying == false)
+            { }
+            else
+            {
+                TetrisConfig.tmr_move_blocks.Start();
+                TetrisConfig.MusicPlayer.PlayLooping();
+            }
+        }
+
         private Tetromino GetTetromino(Tetrominos tetrominoType)
         {
             switch (tetrominoType)
@@ -118,16 +139,16 @@ namespace Tetristana
             switch (e.KeyCode)
             {
                 case Keys.Left:
-                    if (_gameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Left);
+                    if (GameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Left);
                     break;
                 case Keys.Right:
-                    if (_gameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Right);
+                    if (GameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Right);
                     break;
                 case Keys.Down:
-                    if (_gameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Down);
+                    if (GameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Down);
                     break;
                 case Keys.Up:
-                    if (_gameRunning) Tetromino.ActiveTetromino.RotateTetromino(this.Controls, Tetromino.ActiveTetromino.RotationState);
+                    if (GameRunning) Tetromino.ActiveTetromino.RotateTetromino(this.Controls, Tetromino.ActiveTetromino.RotationState);
                     break;
                 case Keys.Space:
                     HandleToggleSpaceKey();

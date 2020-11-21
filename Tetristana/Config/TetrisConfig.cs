@@ -40,9 +40,10 @@ namespace Tetristana.Config
         public static SoundPlayer MusicPlayer { get; set; } = new SoundPlayer();
         public static PictureBox LogoBox { get; set; }
         public static PictureBox Tristana { get; set; }
-        public static Button MuteMusic { get; set; }
-        public static Button information { get; set; }
-        public static bool MusicPlaying { get; set; } = false;
+        public static Panel MuteMusic { get; set; }
+        public static Panel Information { get; set; }
+        public static Panel nextTetromino { get; set; }
+        public static bool MusicPlaying { get; set; } = true;
 
         private static int _tmr_move_blocks_interval = 1000;
 
@@ -97,16 +98,6 @@ namespace Tetristana.Config
             //set initial title
             form.Text = "Tetristana";
 
-            //add controls instructions
-            Label controlsInstructions = new Label()
-            {
-                AutoSize = true,
-                Text = GetControlsInstructions(ControlsInstructions),
-                Font = new Font("Open Sans",8, FontStyle.Regular),
-                Left =getFieldWidth() + 10,
-                Top = getStatsBoxHeight() /8*5 ,
-            };
-            form.Controls.Add(controlsInstructions);
 
             //add score
             ScoreLabel = new Label()
@@ -114,7 +105,7 @@ namespace Tetristana.Config
                 AutoSize = true,
                 Font = new Font("Open Sans", 20, FontStyle.Bold),
                 Text = $"Score: {Tetromino.Score}",
-                Top = getStatsBoxHeight() / 3,
+                Top = getStatsBoxHeight() /10*6,
                 Left = getFieldWidth() + getStatsBoxWidth() / 2 - 60,
             };
             form.Controls.Add(ScoreLabel);
@@ -141,56 +132,68 @@ namespace Tetristana.Config
             };
             form.Controls.Add(Tristana);
 
-            MuteMusic = new Button()
+            MuteMusic = new Panel()
             {
-                BackgroundImage = Image.FromFile(@"./../../assets/pictures/mute.png"),
+                BackgroundImage = Image.FromFile(@"./../../assets/pictures/unmute_1.png"),
                 Size = new Size(40, 40),
                 BackgroundImageLayout = ImageLayout.Stretch,
-                Top = getStatsBoxHeight() /10 *6,
-                Left = getFieldWidth() + getStatsBoxWidth() / 2 ,
+                Top = getStatsBoxHeight() /10 *7,
+                Left = getFieldWidth() + getStatsBoxWidth() / 2 +20,
                 
             };
-            MuteMusic.FlatStyle = FlatStyle.Flat;           
-            MuteMusic.FlatAppearance.BorderSize = 0;
-            MuteMusic.Click += TetrisConfig.MuteMusic_click; 
+
+            MuteMusic.Click += MuteMusic_click; 
             MuteMusic.TabStop = false;
             form.Controls.Add(MuteMusic);
 
-            information = new Button()
+            Information = new Panel()
             {
                 BackgroundImage = Image.FromFile(@"./../../assets/pictures/information.png"),
                 Size = new Size(40, 40),
                 BackgroundImageLayout = ImageLayout.Stretch,
-                Top = getStatsBoxHeight() / 10 * 6,
+                Top = getStatsBoxHeight() / 10 * 7,
                 Left = getFieldWidth() + getStatsBoxWidth() / 2 - 60,
             };
 
-            information.FlatStyle = FlatStyle.Flat;
-            information.FlatAppearance.BorderSize = 0;
-            information.Click += Information_click;
-            information.TabStop = false;
-            form.Controls.Add(information);
+            Information.Click += Information_click;
+            Information.TabStop = false;
+            form.Controls.Add(Information);
+
+             nextTetromino = new Panel()
+             {
+
+             };
+            form.Controls.Add(nextTetromino);
         }
 
         public static void Information_click(object sender, System.EventArgs e)
         {
+            Form1.PauseGame();
+            MessageBox.Show(GetControlsInstructions(ControlsInstructions), "Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+            if (Form1.GameStarted)
+            {
+                Form1.ContinueGame();
+            }  
         }
 
 
         public static void MuteMusic_click(object sender, System.EventArgs e)
         {
-            if (MusicPlaying)
-            {
-                MusicPlayer.Stop();
-                MusicPlaying = false;
-            }
-            else
-            {
-                MusicPlayer.Play();
-                MusicPlaying = true;
-            }          
+                if (MusicPlaying)
+                {
+                    MusicPlayer.Stop();
+                    MusicPlaying = false;
+                    MuteMusic.BackgroundImage = Image.FromFile(@"./../../assets/pictures/mute_1.png");
+                }
+                else
+                {
+                    MusicPlayer.Play();
+                    MusicPlaying = true;
+                    MuteMusic.BackgroundImage = Image.FromFile(@"./../../assets/pictures/unmute_1.png");
+               }
         }
+
 
         public static Func<int> getFieldWidth = () => BlockCountWidth * BlockSize;
         public static Func<int> getFieldHeight = () => BlockCountHeight * BlockSize;

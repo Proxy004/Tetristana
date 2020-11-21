@@ -96,10 +96,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\pictures\I.PNG" />
     <Content Include="assets\pictures\information.png" />
+    <Content Include="assets\pictures\J.PNG" />
+    <Content Include="assets\pictures\L.PNG" />
     <Content Include="assets\pictures\mute.png" />
+    <Content Include="assets\pictures\mute_1.png" />
+    <Content Include="assets\pictures\O.PNG" />
+    <Content Include="assets\pictures\S.PNG" />
+    <Content Include="assets\pictures\T.PNG" />
     <Content Include="assets\pictures\tetristana.png" />
     <Content Include="assets\pictures\tristana.png" />
+    <Content Include="assets\pictures\unmute.png" />
+    <Content Include="assets\pictures\unmute_1.png" />
+    <Content Include="assets\pictures\Z.PNG" />
     <Content Include="assets\sound\tetris_audio.wav" />
   </ItemGroup>
   <ItemGroup />
