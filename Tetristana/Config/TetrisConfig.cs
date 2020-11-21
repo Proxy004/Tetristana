@@ -42,6 +42,7 @@ namespace Tetristana.Config
         public static PictureBox Tristana { get; set; }
         public static Button MuteMusic { get; set; }
         public static Button information { get; set; }
+        public static bool MusicPlaying { get; set; } = false;
 
         private static int _tmr_move_blocks_interval = 1000;
 
@@ -72,7 +73,8 @@ namespace Tetristana.Config
 
         public static void InitializeGame(Form form)
         {
-            //init gui
+
+             //init gui
             form.ClientSize = new System.Drawing.Size(BlockSize * BlockCountWidth + StatsBoxWidth, BlockSize * BlockCountHeight);
             form.FormBorderStyle = FormBorderStyle.FixedDialog;
 
@@ -150,6 +152,8 @@ namespace Tetristana.Config
             };
             MuteMusic.FlatStyle = FlatStyle.Flat;           
             MuteMusic.FlatAppearance.BorderSize = 0;
+            MuteMusic.Click += TetrisConfig.MuteMusic_click; 
+            MuteMusic.TabStop = false;
             form.Controls.Add(MuteMusic);
 
             information = new Button()
@@ -163,14 +167,31 @@ namespace Tetristana.Config
 
             information.FlatStyle = FlatStyle.Flat;
             information.FlatAppearance.BorderSize = 0;
-            information.Click += information_click;
+            information.Click += Information_click;
+            information.TabStop = false;
             form.Controls.Add(information);
-            void information_click(object sender, RoutedEventArgs e)
-            {
-
-            }
         }
-     
+
+        public static void Information_click(object sender, System.EventArgs e)
+        {
+
+        }
+
+
+        public static void MuteMusic_click(object sender, System.EventArgs e)
+        {
+            if (MusicPlaying)
+            {
+                MusicPlayer.Stop();
+                MusicPlaying = false;
+            }
+            else
+            {
+                MusicPlayer.Play();
+                MusicPlaying = true;
+            }          
+        }
+
         public static Func<int> getFieldWidth = () => BlockCountWidth * BlockSize;
         public static Func<int> getFieldHeight = () => BlockCountHeight * BlockSize;
 

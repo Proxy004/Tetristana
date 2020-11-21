@@ -56,6 +56,7 @@ namespace Tetristana
             }
         }
 
+ 
         private Tetromino GetTetromino(Tetrominos tetrominoType)
         {
             switch (tetrominoType)
