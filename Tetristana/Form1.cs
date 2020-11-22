@@ -5,19 +5,26 @@ using Tetristana.Game;
 using Tetristana.Game.Tetrominos;
 using System.Linq;
 using System.IO;
+using System.Windows;
+using System.Drawing;
 
 namespace Tetristana
 {
     public partial class Form1 : Form
     {
-        private bool _gameStarted = false;
-        private bool _gameRunning = false;
+        public static bool GameStarted { get; set; } = false;
+        public static bool GameRunning { get; set; } = false;
+       
 
         public Form1()
         {
             InitializeComponent();
-            TetrisConfig.InitializeGame(this);
+            StartGame();
+        }
 
+        public void StartGame()
+        {
+            TetrisConfig.InitializeGame(this);
             //init Tick methods
             TetrisConfig.tmr_move_blocks.Tick += Tmr_move_blocks_Tick;
         }
@@ -30,28 +37,50 @@ namespace Tetristana
 
         private void HandleToggleSpaceKey()
         {
-            if (!_gameStarted)
+            if (!GameStarted)
             {
-                _gameStarted = true;
-                _gameRunning = true;
+                GameStarted = true;
+                GameRunning = true;
                 TetrisConfig.tmr_move_blocks.Start();
                 RenderNewRandomTetromino();
-                TetrisConfig.MusicPlayer.PlayLooping();
+                if (TetrisConfig.MusicPlaying)
+                {
+                    TetrisConfig.MusicPlayer.PlayLooping();
+                }  
             }
             else
             {
-                if (_gameRunning)
+                if (GameRunning)
                 {
-                    _gameRunning = false;
-                    TetrisConfig.tmr_move_blocks.Stop();
-                    TetrisConfig.MusicPlayer.Stop();
+                    PauseGame();
                 }
                 else
                 {
-                    _gameRunning = true;
-                    TetrisConfig.tmr_move_blocks.Start();
-                    TetrisConfig.MusicPlayer.PlayLooping();
+                    ContinueGame();
                 }
+            }
+        }
+
+        public static void PauseGame()
+        {
+            GameRunning = false;
+            TetrisConfig.tmr_move_blocks.Stop();
+            TetrisConfig.MusicPlayer.Stop();
+        }
+
+
+        public static void ContinueGame()
+        {
+            GameRunning = true; 
+            
+            TetrisConfig.tmr_move_blocks.Start();
+
+            if (TetrisConfig.MusicPlaying == false)
+            { }
+            else
+            {
+                TetrisConfig.tmr_move_blocks.Start();
+                TetrisConfig.MusicPlayer.PlayLooping();
             }
         }
 
@@ -90,6 +119,8 @@ namespace Tetristana
         private void DeclareNextTetromino()
         {
             Tetromino.NextTetromino = (Tetrominos)Tetromino.random.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
+            TetrisConfig.nextTetromino.BackgroundImage = Image.FromFile(@"./../../assets/pictures/" + Tetromino.NextTetromino.ToString()+ ".PNG");
+          
         }
 
         private void RenderNextTetromino(Tetromino tetromino)
@@ -107,8 +138,51 @@ namespace Tetristana
             Tetromino.Score++;
             tetromino.TetrominoDocked -= ActiveTetromino_TetrominoDocked;
             RenderNextTetromino(GetTetromino(Tetromino.NextTetromino));
+            CheckGameOver();
+        }
+        public void resetGame()
+        {
+            foreach (Tetromino t in Tetromino.DockedTetrominos)
+            {
+                t.TetrominoDocked -= ActiveTetromino_TetrominoDocked;
+                foreach (Block b in t.Shape)
+                {   
+                    Controls.Remove(b);
+                }
+            }
+            if (TetrisConfig.MusicPlaying)
+            {
+                TetrisConfig.MusicPlayer.Play();
+            }
+            Tetromino.DockedTetrominos.Clear();
         }
 
+        public void CheckGameOver()
+        {
+            foreach (Tetromino p in Tetromino.DockedTetrominos)
+            {
+                foreach (Block b in p.Shape)
+                {
+                    if (b.Top <= TetrisConfig.BlockSize)
+                    {
+                        TetrisConfig.MusicPlayer.Stop();
+                        TetrisConfig.tmr_move_blocks.Stop();
+                        DialogResult yn;
+                        yn = MessageBox.Show("Sie haben verloren! Möchten Sie erneut spielen?", "Verloren", MessageBoxButtons.YesNo);
+
+                        if (yn == DialogResult.Yes)
+                        {
+                            StartGame();
+                            resetGame();
+                        }
+                        else
+                        {
+                            Close();
+                        }
+                    }
+                }
+            }
+        }
         //keyhandling
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -116,16 +190,16 @@ namespace Tetristana
             switch (e.KeyCode)
             {
                 case Keys.Left:
-                    if (_gameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Left);
+                    if (GameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Left);
                     break;
                 case Keys.Right:
-                    if (_gameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Right);
+                    if (GameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Right);
                     break;
                 case Keys.Down:
-                    if (_gameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Down);
+                    if (GameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Down);
                     break;
                 case Keys.Up:
-                    if (_gameRunning) Tetromino.ActiveTetromino.RotateTetromino(this.Controls, Tetromino.ActiveTetromino.RotationState);
+                    if (GameRunning) Tetromino.ActiveTetromino.RotateTetromino(this.Controls, Tetromino.ActiveTetromino.RotationState);
                     break;
                 case Keys.Space:
                     HandleToggleSpaceKey();
@@ -136,5 +210,7 @@ namespace Tetristana
 
             if (Tetromino.ActiveTetromino != null) Tetromino.ActiveTetromino.CheckCollisions(this.Controls);
         }
+
+       
     }
 }
