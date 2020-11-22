@@ -83,7 +83,15 @@ namespace Tetristana.Config
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             MusicPlayer.SoundLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"./../../assets/sound/tetris_audio.wav");
 
+            TetrisConfig.nextTetromino = new Panel()
+            {
+                BackgroundImageLayout = ImageLayout.Center,
+                Size = new Size(100,100),
+                Top = getStatsBoxHeight() / 10 * 3,
+                Left = getFieldWidth() + getStatsBoxWidth() / 2 - 50,
+            };
 
+            form.Controls.Add(nextTetromino);
 
             //add seperator 
             Panel seperator = new Panel()
@@ -159,11 +167,7 @@ namespace Tetristana.Config
             Information.TabStop = false;
             form.Controls.Add(Information);
 
-             nextTetromino = new Panel()
-             {
 
-             };
-            form.Controls.Add(nextTetromino);
         }
 
         public static void Information_click(object sender, System.EventArgs e)

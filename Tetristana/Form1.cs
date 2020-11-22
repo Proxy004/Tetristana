@@ -6,6 +6,7 @@ using Tetristana.Game.Tetrominos;
 using System.Linq;
 using System.IO;
 using System.Windows;
+using System.Drawing;
 
 namespace Tetristana
 {
@@ -13,12 +14,17 @@ namespace Tetristana
     {
         public static bool GameStarted { get; set; } = false;
         public static bool GameRunning { get; set; } = false;
+       
 
         public Form1()
         {
             InitializeComponent();
-            TetrisConfig.InitializeGame(this);
+            StartGame();
+        }
 
+        public void StartGame()
+        {
+            TetrisConfig.InitializeGame(this);
             //init Tick methods
             TetrisConfig.tmr_move_blocks.Tick += Tmr_move_blocks_Tick;
         }
@@ -113,6 +119,8 @@ namespace Tetristana
         private void DeclareNextTetromino()
         {
             Tetromino.NextTetromino = (Tetrominos)Tetromino.random.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
+            TetrisConfig.nextTetromino.BackgroundImage = Image.FromFile(@"./../../assets/pictures/" + Tetromino.NextTetromino.ToString()+ ".PNG");
+          
         }
 
         private void RenderNextTetromino(Tetromino tetromino)
@@ -130,8 +138,51 @@ namespace Tetristana
             Tetromino.Score++;
             tetromino.TetrominoDocked -= ActiveTetromino_TetrominoDocked;
             RenderNextTetromino(GetTetromino(Tetromino.NextTetromino));
+            CheckGameOver();
+        }
+        public void resetGame()
+        {
+            foreach (Tetromino t in Tetromino.DockedTetrominos)
+            {
+                t.TetrominoDocked -= ActiveTetromino_TetrominoDocked;
+                foreach (Block b in t.Shape)
+                {   
+                    Controls.Remove(b);
+                }
+            }
+            if (TetrisConfig.MusicPlaying)
+            {
+                TetrisConfig.MusicPlayer.Play();
+            }
+            Tetromino.DockedTetrominos.Clear();
         }
 
+        public void CheckGameOver()
+        {
+            foreach (Tetromino p in Tetromino.DockedTetrominos)
+            {
+                foreach (Block b in p.Shape)
+                {
+                    if (b.Top <= TetrisConfig.BlockSize)
+                    {
+                        TetrisConfig.MusicPlayer.Stop();
+                        TetrisConfig.tmr_move_blocks.Stop();
+                        DialogResult yn;
+                        yn = MessageBox.Show("Sie haben verloren! Möchten Sie erneut spielen?", "Verloren", MessageBoxButtons.YesNo);
+
+                        if (yn == DialogResult.Yes)
+                        {
+                            StartGame();
+                            resetGame();
+                        }
+                        else
+                        {
+                            Close();
+                        }
+                    }
+                }
+            }
+        }
         //keyhandling
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
