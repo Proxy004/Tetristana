@@ -3,10 +3,8 @@ using System.Windows.Forms;
 using Tetristana.Config;
 using Tetristana.Game;
 using Tetristana.Game.Tetrominos;
-using System.Linq;
-using System.IO;
-using System.Windows;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace Tetristana
 {
@@ -14,7 +12,6 @@ namespace Tetristana
     {
         public static bool GameStarted { get; set; } = false;
         public static bool GameRunning { get; set; } = false;
-       
 
         public Form1()
         {
@@ -46,7 +43,7 @@ namespace Tetristana
                 if (TetrisConfig.MusicPlaying)
                 {
                     TetrisConfig.MusicPlayer.PlayLooping();
-                }  
+                }
             }
             else
             {
@@ -68,18 +65,13 @@ namespace Tetristana
             TetrisConfig.MusicPlayer.Stop();
         }
 
-
         public static void ContinueGame()
         {
-            GameRunning = true; 
-            
+            GameRunning = true;
             TetrisConfig.tmr_move_blocks.Start();
 
-            if (TetrisConfig.MusicPlaying == false)
-            { }
-            else
+            if (TetrisConfig.MusicPlaying)
             {
-                TetrisConfig.tmr_move_blocks.Start();
                 TetrisConfig.MusicPlayer.PlayLooping();
             }
         }
@@ -119,8 +111,7 @@ namespace Tetristana
         private void DeclareNextTetromino()
         {
             Tetromino.NextTetromino = (Tetrominos)Tetromino.random.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
-            TetrisConfig.nextTetromino.BackgroundImage = Image.FromFile(@"./../../assets/pictures/" + Tetromino.NextTetromino.ToString()+ ".PNG");
-          
+            TetrisConfig.nextTetromino.BackgroundImage = Image.FromFile(@"./../../assets/pictures/" + Tetromino.NextTetromino.ToString() + ".PNG");
         }
 
         private void RenderNextTetromino(Tetromino tetromino)
@@ -140,26 +131,32 @@ namespace Tetristana
             RenderNextTetromino(GetTetromino(Tetromino.NextTetromino));
             CheckGameOver();
         }
-        public void resetGame()
+
+        public void ResetGame()
         {
+            GameStarted = false;
+            GameRunning = false;
+            Tetromino.Score = 0;
+            TetrisConfig.tmr_move_blocks.Tick -= Tmr_move_blocks_Tick;
             foreach (Tetromino t in Tetromino.DockedTetrominos)
             {
                 t.TetrominoDocked -= ActiveTetromino_TetrominoDocked;
                 foreach (Block b in t.Shape)
-                {   
+                {
                     Controls.Remove(b);
                 }
             }
             if (TetrisConfig.MusicPlaying)
             {
-                TetrisConfig.MusicPlayer.Play();
+                TetrisConfig.MusicPlayer.PlayLooping();
             }
             Tetromino.DockedTetrominos.Clear();
         }
 
         public void CheckGameOver()
         {
-            foreach (Tetromino p in Tetromino.DockedTetrominos)
+            List<Tetromino> copyOfTetrominos = new List<Tetromino>(Tetromino.DockedTetrominos);
+            foreach (Tetromino p in copyOfTetrominos)
             {
                 foreach (Block b in p.Shape)
                 {
@@ -167,13 +164,15 @@ namespace Tetristana
                     {
                         TetrisConfig.MusicPlayer.Stop();
                         TetrisConfig.tmr_move_blocks.Stop();
-                        DialogResult yn;
-                        yn = MessageBox.Show("Sie haben verloren! Möchten Sie erneut spielen?", "Verloren", MessageBoxButtons.YesNo);
+                        DialogResult yn = MessageBox.Show("You lost! Would you like to play again?", "Game Over", MessageBoxButtons.YesNo);
 
                         if (yn == DialogResult.Yes)
                         {
+                            ResetGame();
                             StartGame();
-                            resetGame();
+                            TetrisConfig.tmr_move_blocks.Start();
+                            GameStarted = true;
+                            GameRunning = true;
                         }
                         else
                         {
@@ -183,6 +182,7 @@ namespace Tetristana
                 }
             }
         }
+
         //keyhandling
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -210,7 +210,5 @@ namespace Tetristana
 
             if (Tetromino.ActiveTetromino != null) Tetromino.ActiveTetromino.CheckCollisions(this.Controls);
         }
-
-       
     }
 }

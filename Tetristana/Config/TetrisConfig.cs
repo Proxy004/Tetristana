@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Dynamic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tetristana.Game;
 using System.Media;
@@ -28,9 +23,7 @@ namespace Tetristana.Config
         Default, Left, Right, Down
     }
 
-
-
-    public static class TetrisConfig 
+    public static class TetrisConfig
     {
         public static int BlockSize { get; set; } = 35;
         public static int BlockCountWidth { get; set; } = 10;
@@ -74,19 +67,17 @@ namespace Tetristana.Config
 
         public static void InitializeGame(Form form)
         {
-
-             //init gui
+            //init gui
             form.ClientSize = new System.Drawing.Size(BlockSize * BlockCountWidth + StatsBoxWidth, BlockSize * BlockCountHeight);
-            form.FormBorderStyle = FormBorderStyle.FixedDialog;
+            form.FormBorderStyle = FormBorderStyle.FixedDialog; 
 
             //add background audio
-            string basePath = AppDomain.CurrentDomain.BaseDirectory;
             MusicPlayer.SoundLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"./../../assets/sound/tetris_audio.wav");
 
             TetrisConfig.nextTetromino = new Panel()
             {
                 BackgroundImageLayout = ImageLayout.Center,
-                Size = new Size(100,100),
+                Size = new Size(100, 100),
                 Top = getStatsBoxHeight() / 10 * 3,
                 Left = getFieldWidth() + getStatsBoxWidth() / 2 - 50,
             };
@@ -106,14 +97,13 @@ namespace Tetristana.Config
             //set initial title
             form.Text = "Tetristana";
 
-
             //add score
             ScoreLabel = new Label()
             {
                 AutoSize = true,
                 Font = new Font("Open Sans", 20, FontStyle.Bold),
                 Text = $"Score: {Tetromino.Score}",
-                Top = getStatsBoxHeight() /10*6,
+                Top = getStatsBoxHeight() / 10 * 6,
                 Left = getFieldWidth() + getStatsBoxWidth() / 2 - 60,
             };
             form.Controls.Add(ScoreLabel);
@@ -125,7 +115,7 @@ namespace Tetristana.Config
                 SizeMode = PictureBoxSizeMode.StretchImage,
                 Size = new Size(200, 150),
                 Top = 20,
-                Left = getFieldWidth() + getStatsBoxWidth() /2 -100,
+                Left = getFieldWidth() + getStatsBoxWidth() / 2 - 100,
             };
             form.Controls.Add(LogoBox);
 
@@ -135,7 +125,7 @@ namespace Tetristana.Config
                 Image = Image.FromFile(@"./../../assets/pictures/tristana.png"),
                 SizeMode = PictureBoxSizeMode.StretchImage,
                 Size = new Size(220, 200),
-                Top = getStatsBoxHeight()-188,
+                Top = getStatsBoxHeight() - 188,
                 Left = getFieldWidth() + getStatsBoxWidth() / 2 - 90,
             };
             form.Controls.Add(Tristana);
@@ -145,12 +135,11 @@ namespace Tetristana.Config
                 BackgroundImage = Image.FromFile(@"./../../assets/pictures/unmute_1.png"),
                 Size = new Size(40, 40),
                 BackgroundImageLayout = ImageLayout.Stretch,
-                Top = getStatsBoxHeight() /10 *7,
-                Left = getFieldWidth() + getStatsBoxWidth() / 2 +20,
-                
+                Top = getStatsBoxHeight() / 10 * 7,
+                Left = getFieldWidth() + getStatsBoxWidth() / 2 + 20,
             };
 
-            MuteMusic.Click += MuteMusic_click; 
+            MuteMusic.Click += MuteMusic_click;
             MuteMusic.TabStop = false;
             form.Controls.Add(MuteMusic);
 
@@ -166,8 +155,6 @@ namespace Tetristana.Config
             Information.Click += Information_click;
             Information.TabStop = false;
             form.Controls.Add(Information);
-
-
         }
 
         public static void Information_click(object sender, System.EventArgs e)
@@ -178,24 +165,24 @@ namespace Tetristana.Config
             if (Form1.GameStarted)
             {
                 Form1.ContinueGame();
-            }  
+            }
         }
 
 
         public static void MuteMusic_click(object sender, System.EventArgs e)
         {
-                if (MusicPlaying)
-                {
-                    MusicPlayer.Stop();
-                    MusicPlaying = false;
-                    MuteMusic.BackgroundImage = Image.FromFile(@"./../../assets/pictures/mute_1.png");
-                }
-                else
-                {
-                    MusicPlayer.Play();
-                    MusicPlaying = true;
-                    MuteMusic.BackgroundImage = Image.FromFile(@"./../../assets/pictures/unmute_1.png");
-               }
+            if (MusicPlaying)
+            {
+                MusicPlayer.Stop();
+                MusicPlaying = false;
+                MuteMusic.BackgroundImage = Image.FromFile(@"./../../assets/pictures/mute_1.png");
+            }
+            else
+            {
+                MusicPlayer.Play();
+                MusicPlaying = true;
+                MuteMusic.BackgroundImage = Image.FromFile(@"./../../assets/pictures/unmute_1.png");
+            }
         }
 
 

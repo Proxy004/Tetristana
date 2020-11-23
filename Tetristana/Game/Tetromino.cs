@@ -110,7 +110,7 @@ namespace Tetristana.Game
                 foreach (Tetromino tetromino in copyOfTetrominos)
                 {
                     foreach (Block tetrominoBlock in tetromino.Shape)
-                    { 
+                    {
                         block.SetBounds(block.Left, block.Top, block.Width, block.Height + 1);
 
                         if (block.Bounds.IntersectsWith(tetrominoBlock.Bounds))
