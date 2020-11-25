@@ -52,6 +52,7 @@ namespace Tetristana.Config
             {Keys.Right, "Move tetromino to the right" },
             {Keys.Up, "Rotate tetromino clockwise" },
             {Keys.Down, "Drop tetromino softly" },
+            {Keys.Space, "Start/pause game" },
         };
 
         public static Dictionary<Tetrominos, System.Drawing.Color> TetrominoColors = new Dictionary<Tetrominos, Color>
