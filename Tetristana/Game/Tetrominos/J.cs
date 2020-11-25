@@ -21,11 +21,11 @@ namespace Tetristana.Game.Tetrominos
             for (int i = 0; i < Shape.Length; i++)
             {
                 Shape[i] = new Block(BackgroundColor);
-                Shape[i].Top = i * TetrisConfig.BlockSize;
+                Shape[i].Top = (i - 3) * TetrisConfig.BlockSize;
                 Shape[i].Left = TetrisConfig.BlockSize * TetrisConfig.BlockCountWidth / 2;
                 if (i == 3)
                 {
-                    Shape[i].Top = TetrisConfig.BlockSize * (i - 1);
+                    Shape[i].Top = TetrisConfig.BlockSize * (i - 4);
                     Shape[i].Left = TetrisConfig.BlockSize * TetrisConfig.BlockCountWidth / 2 - TetrisConfig.BlockSize;
                 }
                 controls.Add(Shape[i]);

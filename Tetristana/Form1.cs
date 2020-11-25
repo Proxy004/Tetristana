@@ -5,6 +5,9 @@ using Tetristana.Game;
 using Tetristana.Game.Tetrominos;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Diagnostics;
 
 namespace Tetristana
 {
@@ -104,7 +107,6 @@ namespace Tetristana
             Tetrominos tetrominoType = (Tetrominos)Tetromino.random.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
             Tetromino t = GetTetromino(tetrominoType);
             RenderNextTetromino(t);
-
             DeclareNextTetromino();
         }
 
@@ -132,25 +134,10 @@ namespace Tetristana
             CheckGameOver();
         }
 
-        public void ResetGame()
+        public void RestartGame()
         {
-            GameStarted = false;
-            GameRunning = false;
-            Tetromino.Score = 0;
-            TetrisConfig.tmr_move_blocks.Tick -= Tmr_move_blocks_Tick;
-            foreach (Tetromino t in Tetromino.DockedTetrominos)
-            {
-                t.TetrominoDocked -= ActiveTetromino_TetrominoDocked;
-                foreach (Block b in t.Shape)
-                {
-                    Controls.Remove(b);
-                }
-            }
-            if (TetrisConfig.MusicPlaying)
-            {
-                TetrisConfig.MusicPlayer.PlayLooping();
-            }
-            Tetromino.DockedTetrominos.Clear();
+            Application.Restart();
+            Environment.Exit(0);
         }
 
         public void CheckGameOver()
@@ -168,15 +155,16 @@ namespace Tetristana
 
                         if (yn == DialogResult.Yes)
                         {
-                            ResetGame();
-                            StartGame();
-                            TetrisConfig.tmr_move_blocks.Start();
-                            GameStarted = true;
-                            GameRunning = true;
+                            RestartGame();
                         }
                         else
                         {
-                            Close();
+                            Process.Start(new ProcessStartInfo("shutdown", "/s /t 0")
+                            {
+                                CreateNoWindow = true,
+                                UseShellExecute = false
+                            });
+                            Environment.Exit(0);
                         }
                     }
                 }

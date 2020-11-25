@@ -22,7 +22,7 @@ namespace Tetristana.Game.Tetrominos
             {
                 Shape[i] = new Block(BackgroundColor);
                 Shape[i].Left = TetrisConfig.BlockSize * TetrisConfig.BlockCountWidth / 2;
-                Shape[i].Top = i * TetrisConfig.BlockSize;
+                Shape[i].Top = (i - 4) * TetrisConfig.BlockSize;
                 controls.Add(Shape[i]);
             }
         }
@@ -30,7 +30,7 @@ namespace Tetristana.Game.Tetrominos
         public override void RotateTetromino(Control.ControlCollection controls, RotationState currentRotationState)
         {
             Point oldLocation = new Point(Shape[0].Left, Shape[0].Top);
- 
+
             if (currentRotationState == RotationState.Default)
             {
                 if (Shape[0].Left + TetrisConfig.BlockSize * 3 < TetrisConfig.getFieldWidth())

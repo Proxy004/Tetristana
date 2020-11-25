@@ -67,6 +67,10 @@ namespace Tetristana.Config
 
         public static void InitializeGame(Form form)
         {
+            //init form
+            form.MaximizeBox = false;
+            form.StartPosition = FormStartPosition.CenterScreen;
+
             //init gui
             form.ClientSize = new System.Drawing.Size(BlockSize * BlockCountWidth + StatsBoxWidth, BlockSize * BlockCountHeight);
             form.FormBorderStyle = FormBorderStyle.FixedDialog; 

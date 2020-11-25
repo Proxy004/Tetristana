@@ -22,10 +22,10 @@ namespace Tetristana.Game.Tetrominos
             for (int i = 0; i < Shape.Length; i++)
             {
                 Shape[i] = new Block(BackgroundColor);
-                Shape[i].Top = 0;
+                Shape[i].Top = -2 * TetrisConfig.BlockSize;
                 if (i >= 2)
                 {
-                    Shape[i].Top = TetrisConfig.BlockSize;
+                    Shape[i].Top = -TetrisConfig.BlockSize;
                 }
                 renderCount++;
                 if (i == 2) { renderCount -= 3; }
