@@ -35,18 +35,18 @@ namespace Tetristana.Config
         public static PictureBox Tristana { get; set; }
         public static Panel MuteMusic { get; set; }
         public static Panel Information { get; set; }
-        public static Panel nextTetromino { get; set; }
+        public static Panel NextTetromino { get; set; }
         public static bool MusicPlaying { get; set; } = true;
 
         private static int _tmr_move_blocks_interval = 1000;
 
-        public static Timer tmr_move_blocks = new Timer()
+        public static Timer tmr_move_blocks { get; set; } = new Timer()
         {
             Interval = _tmr_move_blocks_interval,
             Enabled = false
         };
 
-        public static Dictionary<Keys, string> ControlsInstructions = new Dictionary<Keys, string>
+        public static Dictionary<Keys, string> ControlsInstructions { get; set; } = new Dictionary<Keys, string>
         {
             {Keys.Left, "Move tetromino to the left" },
             {Keys.Right, "Move tetromino to the right" },
@@ -55,7 +55,7 @@ namespace Tetristana.Config
             {Keys.Space, "Start/pause game" },
         };
 
-        public static Dictionary<Tetrominos, System.Drawing.Color> TetrominoColors = new Dictionary<Tetrominos, Color>
+        public static Dictionary<Tetrominos, Color> TetrominoColors { get; set; } = new Dictionary<Tetrominos, Color>
         {
             {Tetrominos.I, Color.FromArgb(0, 240, 240) },
             {Tetrominos.J, Color.FromArgb(0, 0, 240) },
@@ -79,7 +79,7 @@ namespace Tetristana.Config
             //add background audio
             MusicPlayer.SoundLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"./../../assets/sound/tetris_audio.wav");
 
-            TetrisConfig.nextTetromino = new Panel()
+            TetrisConfig.NextTetromino = new Panel()
             {
                 BackgroundImageLayout = ImageLayout.Center,
                 Size = new Size(100, 100),
@@ -87,7 +87,7 @@ namespace Tetristana.Config
                 Left = getFieldWidth() + getStatsBoxWidth() / 2 - 50,
             };
 
-            form.Controls.Add(nextTetromino);
+            form.Controls.Add(NextTetromino);
 
             //add seperator 
             Panel seperator = new Panel()

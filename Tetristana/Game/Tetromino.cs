@@ -25,10 +25,10 @@ namespace Tetristana.Game
 
         public static List<Tetromino> DockedTetrominos { get; set; } = new List<Tetromino>();
         public static Tetromino ActiveTetromino { get; set; }
-        public Tetristana.Config.Tetrominos TetrominoType { get; set; }
+        public Config.Tetrominos TetrominoType { get; set; }
         public Color BackgroundColor { get; set; }
         public Block[] Shape { get; set; } = new Block[4];
-        public static Random random { get; set; } = new Random();
+        public static Random Rnd { get; set; } = new Random();
         public RotationState RotationState { get; set; } = RotationState.Default;
         public static Config.Tetrominos NextTetromino { get; set; }
 
@@ -55,7 +55,7 @@ namespace Tetristana.Game
                     {
                         foreach (Block block in Shape)
                         {
-                            block.moveBlock(movingDirection);
+                            block.MoveBlock(movingDirection);
                         }
                     }
 
@@ -72,7 +72,7 @@ namespace Tetristana.Game
                     {
                         foreach (Block block in Shape)
                         {
-                            block.moveBlock(movingDirection);
+                            block.MoveBlock(movingDirection);
                         }
                     }
                     break;
@@ -92,7 +92,7 @@ namespace Tetristana.Game
                     {
                         foreach (Block block in Shape)
                         {
-                            block.moveBlock(movingDirection);
+                            block.MoveBlock(movingDirection);
                         }
                     }
                     break;

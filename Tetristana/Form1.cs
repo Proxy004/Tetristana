@@ -104,7 +104,7 @@ namespace Tetristana
 
         private void RenderNewRandomTetromino()
         {
-            Tetrominos tetrominoType = (Tetrominos)Tetromino.random.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
+            Tetrominos tetrominoType = (Tetrominos)Tetromino.Rnd.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
             Tetromino t = GetTetromino(tetrominoType);
             RenderNextTetromino(t);
             DeclareNextTetromino();
@@ -112,8 +112,8 @@ namespace Tetristana
 
         private void DeclareNextTetromino()
         {
-            Tetromino.NextTetromino = (Tetrominos)Tetromino.random.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
-            TetrisConfig.nextTetromino.BackgroundImage = Image.FromFile(@"./../../assets/pictures/" + Tetromino.NextTetromino.ToString() + ".PNG");
+            Tetromino.NextTetromino = (Tetrominos)Tetromino.Rnd.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
+            TetrisConfig.NextTetromino.BackgroundImage = Image.FromFile(@"./../../assets/pictures/" + Tetromino.NextTetromino.ToString() + ".PNG");
         }
 
         private void RenderNextTetromino(Tetromino tetromino)

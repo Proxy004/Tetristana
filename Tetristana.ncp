@@ -1,0 +1,263 @@
+<Project>
+  <Name>Tetristana</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>UML</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>TetrisConfig</Name>
+        <Access>Public</Access>
+        <Location left="329" top="53" />
+        <Size width="378" height="468" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private static int _tmr_move_blocks_interval</Member>
+        <Member type="Property">public static int BlockSize { get; set; }</Member>
+        <Member type="Property">public static int BlockCountWidth { get; set; }</Member>
+        <Member type="Property">public static int BlockCountHeight { get; set; }</Member>
+        <Member type="Property">public static int StatsBoxWidth { get; set; }</Member>
+        <Member type="Property">public static Label ScoreLabel { get; set; }</Member>
+        <Member type="Property">public static SoundPlayer MusicPlayer { get; set; }</Member>
+        <Member type="Property">public static PictureBox LogoBox { get; set; }</Member>
+        <Member type="Property">public static PictureBox Tristana { get; set; }</Member>
+        <Member type="Property">public static Panel MuteMusic { get; set; }</Member>
+        <Member type="Property">public static Panel Information { get; set; }</Member>
+        <Member type="Property">public static Panel NextTetromino { get; set; }</Member>
+        <Member type="Property">public static bool MusicPlaying { get; set; }</Member>
+        <Member type="Property">public static Timer tmr_move_blocks { get; set; }</Member>
+        <Member type="Property">public static Dictionary&lt;Keys, string&gt; ControlsInstructions { get; set; }</Member>
+        <Member type="Property">public static Dictionary&lt;Tetrominos, Color&gt; TetrominoColors { get; set; }</Member>
+        <Member type="Method">public static void Information_click(object sender, System.EventArgs e)</Member>
+        <Member type="Method">public static void MuteMusic_click(object sender, System.EventArgs e)</Member>
+        <Member type="Method">public static void getFieldWidth()</Member>
+        <Member type="Method">public static void getFieldHeight()</Member>
+        <Member type="Method">public static void getStatsBoxWidth()</Member>
+        <Member type="Method">public static void getStatsBoxHeight()</Member>
+        <Member type="Method">private static string GetControlsInstructions(Dictionary&lt;Keys, string&gt; instructions)</Member>
+        <Modifier>Static</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>Tetrominos</Name>
+        <Access>Public</Access>
+        <Location left="761" top="53" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>I</Value>
+        <Value>J</Value>
+        <Value>L</Value>
+        <Value>O</Value>
+        <Value>S</Value>
+        <Value>T</Value>
+        <Value>Z</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>MovingDirections</Name>
+        <Access>Public</Access>
+        <Location left="761" top="295" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>Left</Value>
+        <Value>Right</Value>
+        <Value>Down</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>RotationState</Name>
+        <Access>Public</Access>
+        <Location left="956" top="53" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>Default</Value>
+        <Value>Left</Value>
+        <Value>Right</Value>
+        <Value>Down</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>Tetromino</Name>
+        <Access>Public</Access>
+        <Location left="1169" top="53" />
+        <Size width="517" height="349" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private static int _score</Member>
+        <Member type="Property">public static int Score { get; set; }</Member>
+        <Member type="Property">public static List&lt;Tetromino&gt; DockedTetrominos { get; set; }</Member>
+        <Member type="Property">public static Tetromino ActiveTetromino { get; set; }</Member>
+        <Member type="Property">public Tetristana.Config.Tetrominos TetrominoType { get; set; }</Member>
+        <Member type="Property">public Color BackgroundColor { get; set; }</Member>
+        <Member type="Property">public Block[] Shape { get; set; }</Member>
+        <Member type="Property">public static Random Rnd { get; set; }</Member>
+        <Member type="Property">public RotationState RotationState { get; set; }</Member>
+        <Member type="Property">public static Config.Tetrominos NextTetromino { get; set; }</Member>
+        <Member type="Constructor">public Tetromino(Config.Tetrominos tetrominoType)</Member>
+        <Member type="Method">public virtual void RenderShape(Control.ControlCollection controls)</Member>
+        <Member type="Method">public void MoveTetromino(MovingDirections movingDirection)</Member>
+        <Member type="Method">public void CheckCollisions(Control.ControlCollection controls)</Member>
+        <Member type="Method">public virtual void RotateTetromino(Control.ControlCollection controls, RotationState currentRotationState)</Member>
+        <Member type="Event">public event EventTypeTetrominoDocked TetrominoDocked</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Delegate">
+        <Name>EventTypeTetrominoDocked</Name>
+        <Access>Public</Access>
+        <Location left="956" top="295" />
+        <Size width="162" height="90" />
+        <Collapsed>False</Collapsed>
+        <ReturnType>void</ReturnType>
+        <Param>Tetromino tetromino</Param>
+      </Entity>
+      <Entity type="Class">
+        <Name>Form1</Name>
+        <Access>Public</Access>
+        <Location left="329" top="564" />
+        <Size width="375" height="368" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public static bool GameStarted { get; set; }</Member>
+        <Member type="Property">public static bool GameRunning { get; set; }</Member>
+        <Member type="Constructor">public Form1()</Member>
+        <Member type="Method">public void StartGame()</Member>
+        <Member type="Method">private void Tmr_move_blocks_Tick(object sender, System.EventArgs e)</Member>
+        <Member type="Method">private void HandleToggleSpaceKey()</Member>
+        <Member type="Method">public static void PauseGame()</Member>
+        <Member type="Method">public static void ContinueGame()</Member>
+        <Member type="Method">public void NewMethod()</Member>
+        <Member type="Method">private Tetromino GetTetromino(Tetrominos tetrominoType)</Member>
+        <Member type="Method">private void RenderNewRandomTetromino()</Member>
+        <Member type="Method">private void DeclareNextTetromino()</Member>
+        <Member type="Method">private void RenderNextTetromino(Tetromino tetromino)</Member>
+        <Member type="Method">private void ActiveTetromino_TetrominoDocked(Tetromino tetromino)</Member>
+        <Member type="Method">public void RestartGame()</Member>
+        <Member type="Method">public void CheckGameOver()</Member>
+        <Member type="Method">private void Form1_KeyDown(object sender, KeyEventArgs e)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Block</Name>
+        <Access>Public</Access>
+        <Location left="761" top="695" />
+        <Size width="306" height="136" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public Block(Color backgroundColor)</Member>
+        <Member type="Constructor">public Block(Color backgroundColor, int left, int top)</Member>
+        <Member type="Method">public void moveBlock(MovingDirections moveDirection)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>S</Name>
+        <Access>Public</Access>
+        <Location left="1169" top="1441" />
+        <Size width="517" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public S()</Member>
+        <Member type="Method">public override void RenderShape(Control.ControlCollection controls)</Member>
+        <Member type="Method">public override void RotateTetromino(Control.ControlCollection controls, RotationState currentRotationState)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>I</Name>
+        <Access>Public</Access>
+        <Location left="1169" top="448" />
+        <Size width="517" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public I()</Member>
+        <Member type="Method">public override void RenderShape(Control.ControlCollection controls)</Member>
+        <Member type="Method">public override void RotateTetromino(Control.ControlCollection controls, RotationState currentRotationState)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>J</Name>
+        <Access>Public</Access>
+        <Location left="1169" top="695" />
+        <Size width="517" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public J()</Member>
+        <Member type="Method">public override void RenderShape(Control.ControlCollection controls)</Member>
+        <Member type="Method">public override void RotateTetromino(Control.ControlCollection controls, RotationState currentRotationState)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>L</Name>
+        <Access>Public</Access>
+        <Location left="1169" top="940" />
+        <Size width="517" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public L()</Member>
+        <Member type="Method">public override void RenderShape(Control.ControlCollection controls)</Member>
+        <Member type="Method">public override void RotateTetromino(Control.ControlCollection controls, RotationState currentRotationState)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>O</Name>
+        <Access>Public</Access>
+        <Location left="1169" top="1186" />
+        <Size width="517" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public O()</Member>
+        <Member type="Method">public override void RenderShape(Control.ControlCollection controls)</Member>
+        <Member type="Method">public override void RotateTetromino(Control.ControlCollection controls, RotationState currentRotationState)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>T</Name>
+        <Access>Public</Access>
+        <Location left="1169" top="1681" />
+        <Size width="517" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public T()</Member>
+        <Member type="Method">public override void RenderShape(Control.ControlCollection controls)</Member>
+        <Member type="Method">public override void RotateTetromino(Control.ControlCollection controls, RotationState currentRotationState)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Z</Name>
+        <Access>Public</Access>
+        <Location left="1169" top="1933" />
+        <Size width="517" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public Z()</Member>
+        <Member type="Method">public override void RenderShape(Control.ControlCollection controls)</Member>
+        <Member type="Method">public override void RotateTetromino(Control.ControlCollection controls, RotationState currentRotationState)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Panel</Name>
+        <Access>Public</Access>
+        <Location left="761" top="564" />
+        <Size width="306" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Generalization" first="7" second="15">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="9" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="10" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="12" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="11" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="8" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="13" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="14" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
