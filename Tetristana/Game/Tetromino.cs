@@ -7,7 +7,7 @@ using Tetristana.Config;
 namespace Tetristana.Game
 {
     public delegate void EventTypeTetrominoDocked(Tetromino tetromino);
-    public class Tetromino
+    public abstract class Tetromino
     {
         private static int _score = 0;
         public static int Score
@@ -37,7 +37,7 @@ namespace Tetristana.Game
             this.TetrominoType = tetrominoType;
         }
 
-        public virtual void RenderShape(Control.ControlCollection controls) { }
+        public abstract void RenderShape(Control.ControlCollection controls);
 
         public void MoveTetromino(MovingDirections movingDirection)
         {
@@ -101,7 +101,7 @@ namespace Tetristana.Game
             }
         }
 
-        public void CheckCollisions(Control.ControlCollection controls)
+        public void CheckCollisions()
         {
             List<Tetromino> copyOfTetrominos = new List<Tetromino>(Tetromino.DockedTetrominos);
 
@@ -124,7 +124,7 @@ namespace Tetristana.Game
             }
         }
 
-        public virtual void RotateTetromino(Control.ControlCollection controls, RotationState currentRotationState) { }
+        public virtual void RotateTetromino(RotationState currentRotationState) { }
 
         public event EventTypeTetrominoDocked TetrominoDocked;
     }

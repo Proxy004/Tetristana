@@ -32,7 +32,7 @@ namespace Tetristana
         private void Tmr_move_blocks_Tick(object sender, System.EventArgs e)
         {
             Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Down);
-            Tetromino.ActiveTetromino.CheckCollisions(this.Controls);
+            Tetromino.ActiveTetromino.CheckCollisions();
         }
 
         private void HandleToggleSpaceKey()
@@ -187,7 +187,7 @@ namespace Tetristana
                     if (GameRunning) Tetromino.ActiveTetromino.MoveTetromino(MovingDirections.Down);
                     break;
                 case Keys.Up:
-                    if (GameRunning) Tetromino.ActiveTetromino.RotateTetromino(this.Controls, Tetromino.ActiveTetromino.RotationState);
+                    if (GameRunning) Tetromino.ActiveTetromino.RotateTetromino(Tetromino.ActiveTetromino.RotationState);
                     break;
                 case Keys.Space:
                     HandleToggleSpaceKey();
@@ -196,7 +196,7 @@ namespace Tetristana
                     break;
             }
 
-            if (Tetromino.ActiveTetromino != null) Tetromino.ActiveTetromino.CheckCollisions(this.Controls);
+            if (Tetromino.ActiveTetromino != null) Tetromino.ActiveTetromino.CheckCollisions();
         }
     }
 }
