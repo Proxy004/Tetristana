@@ -26,7 +26,7 @@ namespace Tetristana.Game.Tetrominos
                 controls.Add(Shape[i]);
             }
         }
-
+        //fragen wieso point und logik von rendershape top sowie rotation erklären
         public override void RotateTetromino(RotationState currentRotationState)
         {
             Point oldLocation = new Point(Shape[0].Left, Shape[0].Top);

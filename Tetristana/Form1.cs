@@ -107,7 +107,6 @@ namespace Tetristana
             Tetrominos tetrominoType = (Tetrominos)Tetromino.Rnd.Next(0, Enum.GetNames(typeof(Tetrominos)).Length);
             Tetromino t = GetTetromino(tetrominoType);
             RenderNextTetromino(t);
-            DeclareNextTetromino();
         }
 
         private void DeclareNextTetromino()
